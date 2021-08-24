@@ -1,5 +1,4 @@
 import Head from "next/head";
-import Image from "next/image";
 
 export default function CreateUser() {
    return (
@@ -10,7 +9,11 @@ export default function CreateUser() {
                <span className="create-user__title">Who Is Watching?</span>
             </div>
             <div className="create-user__form">
-               <img src="https://uifaces.co/our-content/donated/n4Ngwvi7.jpg" alt="" className="create-user__user-img" />
+               <img
+                  src="https://uifaces.co/our-content/donated/n4Ngwvi7.jpg"
+                  alt=""
+                  className="create-user__user-img"
+               />
                <div className="create-user__input-group">
                   <label htmlFor="">Name</label>
                   <input type="text" className="create-user__inputText" />
@@ -19,35 +22,40 @@ export default function CreateUser() {
                         className="create-user__color create-user__color--active"
                         style={{
                            background: "rgb(194,140,31)",
-                           background: "linear-gradient(135deg, rgba(9,0,19,1) 10%, rgba(0,232,255,1) 100%)",
+                           background:
+                              "linear-gradient(135deg, rgba(9,0,19,1) 10%, rgba(0,232,255,1) 100%)",
                         }}
                      ></div>
                      <div
                         className="create-user__color"
                         style={{
                            background: "rgb(194,140,31)",
-                           background: "linear-gradient(135deg, rgba(9,0,19,1) 10%, rgba(61,255,0,1) 100%)",
+                           background:
+                              "linear-gradient(135deg, rgba(9,0,19,1) 10%, rgba(61,255,0,1) 100%)",
                         }}
                      ></div>
                      <div
                         className="create-user__color"
                         style={{
                            background: "rgb(194,140,31)",
-                           background: "linear-gradient(135deg, rgba(9,0,19,1) 10%, rgba(145,0,255,1) 100%)",
+                           background:
+                              "linear-gradient(135deg, rgba(9,0,19,1) 10%, rgba(145,0,255,1) 100%)",
                         }}
                      ></div>
                      <div
                         className="create-user__color"
                         style={{
                            background: "rgb(194,140,31)",
-                           background: "linear-gradient(135deg, rgba(9,0,19,1) 10%, rgba(186,2,2,1) 100%)",
+                           background:
+                              "linear-gradient(135deg, rgba(9,0,19,1) 10%, rgba(186,2,2,1) 100%)",
                         }}
                      ></div>
                      <div
                         className="create-user__color"
                         style={{
                            background: "rgb(194,140,31)",
-                           background: "linear-gradient(135deg, rgba(9,0,19,1) 10%, rgba(255,87,214,1) 100%)",
+                           background:
+                              "linear-gradient(135deg, rgba(9,0,19,1) 10%, rgba(255,87,214,1) 100%)",
                         }}
                      ></div>
                   </div>
