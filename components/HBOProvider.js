@@ -11,7 +11,7 @@ export function HBOProvider({ children }) {
    const defaultUserImg = "https://uifaces.co/our-content/donated/n4Ngwvi7.jpg";
    const createUserAction = (e) => {
       setUser(e.target.value);
-      console.log(user);
+      console.log(2 + 2);
    };
    return (
       <StateContext.Provider
