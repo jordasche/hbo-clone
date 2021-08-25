@@ -1,7 +1,21 @@
+import { useStateContext } from "../../HBOProvider";
+
 const SideNav = (props) => {
+   const globalState = useStateContext();
+   const toggleSideNav = () => {
+      if (globalState.sideNavOpen) {
+         globalState.setSideNavOpenAction(false);
+      } else {
+         globalState.setSideNavOpenAction(true);
+      }
+   };
    return (
-      <div className="side-nav">
-         <div className="side-nav__close-btn">
+      <div
+         className={`side-nav ${
+            globalState.sideNavOpen ? "side-nav--active" : ""
+         }`}
+      >
+         <div className="side-nav__close-btn" onClick={toggleSideNav}>
             <i className="fas fa-times"></i>
          </div>
          <ul className="side-nav__main">

@@ -11,6 +11,9 @@
    width: 100%;
    z-index: 10;
    transition: background 0.3s ease-in-out;
+   &--menu-open {
+      background: black;
+   }
    &:hover {
       background: rgba(0, 0, 0, 1);
    }
@@ -41,5 +44,9 @@
       object-fit: cover;
       object-position: center;
       margin-right: 1rem;
+   }
+   &__menu-btn,
+   &__search-btn {
+      cursor: pointer;
    }
 }

@@ -5,8 +5,10 @@ import ForYouList from "../components/UI/ForYouList/ForYouList";
 import JustAdded from "../components/UI/JustAdded/JustAdded";
 import PosterView from "../components/UI/PosterView/PosterView";
 import CastInfo from "../components/UI/CastInfo/CastInfo";
+import AuthCheck from "../components/UI/AuthCheck";
+
 export default function HomeView() {
-   return (
+   return AuthCheck(
       <MainLayout>
          <FeaturedMedia></FeaturedMedia>
          <PosterView></PosterView>
