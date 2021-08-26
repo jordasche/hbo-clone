@@ -16,6 +16,7 @@ export function HBOProvider({ children }) {
 
    const [sideNavOpen, setSideNavOpenAction] = useState(false);
    const [accountOpen, setAccountOpenAction] = useState(false);
+   const [searchOpen, setSearchOpenAction] = useState(false);
    return (
       <StateContext.Provider
          value={{
@@ -26,6 +27,8 @@ export function HBOProvider({ children }) {
             sideNavOpen,
             accountOpen,
             setAccountOpenAction,
+            searchOpen,
+            setSearchOpenAction,
          }}
       >
          {children}

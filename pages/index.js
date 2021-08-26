@@ -4,10 +4,9 @@ import { useEffect } from "react";
 import { useRouter } from "next/dist/client/router";
 import MainLayout from "../components/Layouts/MainLayout";
 import FeaturedMedia from "../components/UI/FeaturedMedia/FeaturedMedia";
-import JustAdded from "../components/UI/JustAdded/JustAdded";
-import PosterView from "../components/UI/PosterView/PosterView";
-import ForYouList from "../components/UI/ForYouList/ForYouList";
+
 import AuthCheck from "../components/UI/AuthCheck";
+import MediaRow from "../components/UI/MediaRow/MediaRow";
 export default function Home() {
    const globalState = useStateContext();
    const router = useRouter();
@@ -16,9 +15,11 @@ export default function Home() {
       <div>
          <MainLayout>
             <FeaturedMedia></FeaturedMedia>
-            <ForYouList></ForYouList>
-            <JustAdded></JustAdded>
-            <PosterView></PosterView>
+            <MediaRow title="Movies" type="large-v"></MediaRow>
+            <MediaRow title="Series" type="small-v"></MediaRow>
+            <MediaRow title="Action" type="small-h"></MediaRow>
+            <MediaRow title="Horror" type="large-h"></MediaRow>
+            <MediaRow title="Sci-fi" type="large-v"></MediaRow>
          </MainLayout>
       </div>
    );

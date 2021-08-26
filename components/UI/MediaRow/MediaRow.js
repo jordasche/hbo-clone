@@ -1,4 +1,4 @@
-const ForYouList = (props) => {
+const MediaRow = (props) => {
    const loopComp = (comp, digit) => {
       let thumbnails = [];
       for (let index = 1; index <= digit; index++) {
@@ -7,16 +7,16 @@ const ForYouList = (props) => {
       return thumbnails;
    };
    return (
-      <div className="foryou-list">
-         <h3 className="foryou-list__title">For You</h3>
-         <div className="foryou-list__thumbnails">
+      <div className={`media-row ${props.type}`}>
+         <h3 className="media-row__title">{props.title}</h3>
+         <div className="media-row__thumbnails">
             {loopComp(
-               <div className="foryou-list__thumbnail">
+               <div className="media-row__thumbnail">
                   <img
-                     src="https://m.media-amazon.com/images/I/71PoWJZWJRL._AC_SL1000_.jpg"
+                     src="https://i.etsystatic.com/13367669/r/il/db21fd/2198543930/il_570xN.2198543930_4qne.jpg"
                      alt=""
                   />
-                  <div className="foryou-list__top-layer">
+                  <div className="media-row__top-layer">
                      <i className="fas fa-play"></i>
                   </div>
                </div>,
@@ -27,4 +27,4 @@ const ForYouList = (props) => {
    );
 };
 
-export default ForYouList;
+export default MediaRow;
