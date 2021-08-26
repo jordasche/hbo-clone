@@ -17,16 +17,11 @@ class MyDocument extends Document {
                   crossOrigin
                />
                <link
+                  rel="preload"
+                  as="style"
                   href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;300;400;500;700&display=swap"
-                  rel="stylesheet"
                />
-               <link
-                  rel="stylesheet"
-                  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-                  integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
-                  crossOrigin="anonymous"
-                  referrerpolicy="no-referrer"
-               />
+               <link rel="stylesheet" href="/fontaw/css/all.min.css" />
             </Head>
             <body>
                <Main />
