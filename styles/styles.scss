@@ -11,5 +11,7 @@
 @use '../components/UI/Login/login';
 @use '../components/UI/MediaRow/media-row';
 
+html,
 body {
+   background: black;
 }
