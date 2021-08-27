@@ -1,29 +1,107 @@
+import ReactPlayer from "react-player";
+import { useState } from "react";
+import { Router, useRouter } from "next/dist/client/router";
+
 const FeaturedMedia = (props) => {
+   const router = useRouter();
+   const clickedPlay = () => {
+      togglePlaying();
+   };
+   const clickedTitle = () => {
+      if (props.type === "main") {
+         router.push(props.mediaUrl);
+      }
+   };
+   const clickedMoreInfo = () => {
+      if (props.type === "main") {
+         router.push(props.mediaUrl);
+      }
+   };
+
+   const [muted, setMuted] = useState(true);
+   const [playing, setPlaying] = useState(true);
+
+   const togglePlaying = () => {
+      if (playing === true) {
+         setPlaying(false);
+      } else setPlaying(true);
+   };
+   const toggleMute = () => {
+      if (muted === true) {
+         setMuted(false);
+      } else {
+         setMuted(true);
+      }
+   };
+
+   const showMedia = () => {
+      console.log("Trailer ID: ", props.trailerID);
+      if (
+         props.trailerID === "none" ||
+         props.trailerID === null ||
+         props.trailerID === undefined
+      ) {
+         return (
+            <img
+               src={`https://image.tmdb.org/t/p/w1280${props.backdrop}`}
+               alt=""
+               className="featured-media__img"
+            />
+         );
+      } else {
+         //url={`https://www.youtube.com/embed/${props.trailerID}?autoplay=1&loop=1&start=16&playlist=${props.trailerID}`}
+         return (
+            <ReactPlayer
+               url={`https://www.youtube.com/embed/${props.trailerID}`}
+               muted={muted}
+               volume="0.5"
+               className="featured-media__video"
+               width="100%"
+               height="100%"
+               playing={playing}
+               loop={true}
+            />
+         );
+      }
+   };
    return (
       <div className="featured-media">
-         <iframe
-            className="featured-media__video"
-            width="100%"
-            height="100%"
-            src="https://www.youtube.com/embed/NYH2sLid0Zc?autoplay=1&loop=1&start=16&mute=1&playlist=NYH2sLid0Zc"
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-         ></iframe>
-
+         {showMedia()}
          <div className="featured-media__bg">
             <div className="featured-media__container">
-               <div className="featured-media__title">Mortal Kombat</div>
-               <div className="featured-media__playing">Now Playing</div>
-               <div className="featured-media__location">
-                  In theaters and on HBO Max. Streaming throughout May 23.
+               <div className="featured-media__title" onClick={clickedTitle}>
+                  {props.title}
                </div>
+               <div className="featured-media__playing">Now Playing</div>
+               <div className="featured-media__overview">{props.overview}</div>
+
                <div className="featured-media__buttons">
-                  <div className="featured-media__play-btn">
-                     <i className="fas fa-play"></i>
+                  <div
+                     className="featured-media__play-btn"
+                     onClick={clickedPlay}
+                  >
+                     <i
+                        // className="fas fa-play"
+                        className={`${
+                           playing ? "fas fa-pause" : "fas fa-play"
+                        }`}
+                     ></i>
                   </div>
-                  <div className="featured-media__info-btn">MORE INFO</div>
+                  <div
+                     className={`featured-media__info-btn ${
+                        props.type === "single" ? "hide-comp" : ""
+                     }`}
+                     onClick={clickedMoreInfo}
+                  >
+                     MORE INFO
+                  </div>
+               </div>
+               <div className="featured-media__mute" onClick={toggleMute}>
+                  <i
+                     className={`${
+                        muted ? "fas fa-volume-mute" : "fas fa-volume-up"
+                     }`}
+                  ></i>
                </div>
             </div>
          </div>

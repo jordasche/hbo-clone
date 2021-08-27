@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { useStateContext } from "../components/HBOProvider";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/dist/client/router";
 import MainLayout from "../components/Layouts/MainLayout";
 import FeaturedMedia from "../components/UI/FeaturedMedia/FeaturedMedia";
@@ -8,15 +8,40 @@ import AuthCheck from "../components/UI/AuthCheck";
 import MediaRow from "../components/UI/MediaRow/MediaRow";
 import LazyLoad from "react-lazyload";
 import PlaceHolders from "../components/UI/PlaceHolders/PlaceHolders";
+import { extractTrailer } from "../components/UI/utilities";
+import axios from "axios";
 
 export default function Home() {
    const globalState = useStateContext();
    const router = useRouter();
-   useEffect(() => {}, []);
+   const [featuredMovie, setFeaturedMovie] = useState("");
+
+   const [trailerID, setTrailerID] = useState("");
+   useEffect(() => {
+      axios
+         .get(
+            `https://api.themoviedb.org/3/movie/436969?api_key=8b4d9144732c62a3656d7c80c4753668&language=en-US&append_to_response=videos,providers`
+         )
+         .then(async function (response) {
+            setFeaturedMovie(response.data);
+            const trailerKey = await extractTrailer(
+               response.data.videos.results
+            );
+
+            setTrailerID(trailerKey.key);
+         });
+   }, []);
+
    return AuthCheck(
       <div>
          <MainLayout>
-            <FeaturedMedia></FeaturedMedia>
+            <FeaturedMedia
+               trailerID={trailerID}
+               title={featuredMovie.title}
+               overview={featuredMovie.overview}
+               mediaUrl="/movie/436969"
+               type="main"
+            ></FeaturedMedia>
             <LazyLoad
                height={680}
                offset={-400}
@@ -87,3 +112,9 @@ export default function Home() {
       </div>
    );
 }
+
+// export async function getServerSideProps(context) {
+//    return {
+//       props: { query: context.query },
+//    };
+// }

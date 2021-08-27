@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { shuffleArray } from "../utilities";
+import Link from "next/link";
 
 const MediaRow = (props) => {
    const [loadingData, setLoadingData] = useState(true);
@@ -14,11 +15,11 @@ const MediaRow = (props) => {
          .then(function (response) {
             setMovies(shuffleArray(response.data.results));
             setLoadingData(false);
-            console.log("Success Response For " + props.title);
-            console.log(response);
+            // console.log("Success Response For " + props.title);
+            // console.log(response);
          })
          .then(function (error) {
-            console.log(error);
+            // console.log(error);
          });
    }, []);
 
@@ -71,17 +72,19 @@ const Thumbnail = (props) => {
       }
    };
    return (
-      <div className="media-row__thumbnail">
-         <img
-            src={`https://image.tmdb.org/t/p/w${thumbSize(props.type)}${
-               props.movieData.poster_path
-            }`}
-            alt=""
-         />
-         <div className="media-row__top-layer">
-            <i className="fas fa-play"></i>
+      <Link href={`/movie/${props.movieData.id}`}>
+         <div className="media-row__thumbnail">
+            <img
+               src={`https://image.tmdb.org/t/p/w${thumbSize(props.type)}${
+                  props.movieData.poster_path
+               }`}
+               alt=""
+            />
+            <div className="media-row__top-layer">
+               <i className="fas fa-play"></i>
+            </div>
          </div>
-      </div>
+      </Link>
    );
 };
 
