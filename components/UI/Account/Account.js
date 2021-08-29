@@ -1,5 +1,5 @@
 import { useStateContext } from "../../HBOProvider";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 const Account = () => {
    const globalState = useStateContext();
    useEffect(() => {
@@ -9,11 +9,29 @@ const Account = () => {
          document.body.style.overflowY = "auto";
       }
    }, [globalState.accountOpen]);
+
+   let accountRef = useRef();
+   useEffect(() => {
+      let handler = (event) => {
+         console.log("THIS IS EVENT TARGET");
+         console.log(event.target);
+         if (!accountRef.current.contains(event.target)) {
+            console.log("Closing side nav");
+            globalState.setAccountOpenAction(false);
+         }
+      };
+      document.addEventListener("mousedown", handler);
+
+      return () => {
+         document.removeEventListener("mousedown", handler);
+      };
+   }, [accountRef]);
    return (
       <div
          className={`account ${
             globalState.accountOpen ? "account--active" : ""
          }`}
+         ref={accountRef}
       >
          <div className="account__details">
             <div className="account__title">My List</div>
