@@ -24,6 +24,7 @@ export default function Home() {
          )
          .then(async function (response) {
             setFeaturedMovie(response.data);
+
             const trailerKey = await extractTrailer(
                response.data.videos.results
             );
@@ -31,6 +32,11 @@ export default function Home() {
             setTrailerID(trailerKey.key);
          });
    }, []);
+
+   useEffect(() => {
+      console.log("INDEX TRAILER ID");
+      console.log(trailerID);
+   }, [trailerID]);
 
    return AuthCheck(
       <div>
@@ -40,6 +46,7 @@ export default function Home() {
                title={featuredMovie.title}
                overview={featuredMovie.overview}
                mediaUrl="/movie/436969"
+               backdrop={featuredMovie.backdrop_path}
                type="main"
             ></FeaturedMedia>
             <LazyLoad

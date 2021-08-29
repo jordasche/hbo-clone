@@ -15,10 +15,7 @@ const SideNav = (props) => {
    let menuRef = useRef();
    useEffect(() => {
       let handler = (event) => {
-         console.log("THIS IS EVENT TARGET");
-         console.log(event.target);
          if (!menuRef.current.contains(event.target)) {
-            console.log("Closing side nav");
             globalState.setSideNavOpenAction(false);
          }
       };

@@ -48,9 +48,15 @@ export default function MediaTypePage(props) {
 
    const [trailerID, setTrailerID] = useState("");
 
+   useEffect(() => {
+      console.log("BALLS");
+      console.log(props.featuredData.title);
+      console.log(props.query.mediaType);
+   }, []);
    const setFeaturedMediaTrailer = async () => {
       let response;
       let videoArray;
+
       try {
          response = await axios.get(
             `https://api.themoviedb.org/3/${props.query.mediaType}/${props.featuredData.id}?api_key=8b4d9144732c62a3656d7c80c4753668&language=en-US&append_to_response=videos,providers`
@@ -74,8 +80,6 @@ export default function MediaTypePage(props) {
    };
    useEffect(() => {
       setFeaturedMediaTrailer();
-      console.log("HERES THE ID");
-      console.log(props.featuredData.id);
    }, [props.featuredData]);
 
    return AuthCheck(
@@ -108,9 +112,11 @@ export default function MediaTypePage(props) {
 export async function getServerSideProps(context) {
    let genresData;
    let featuredData;
+   let response;
+   let videoArray;
    try {
       genresData = await axios.get(
-         `https://api.themoviedb.org/3/genre/${context.query.mediaType}/list?api_key=8b4d9144732c62a3656d7c80c4753668&language=en-US&append_to_response=videos`
+         `https://api.themoviedb.org/3/genre/${context.query.mediaType}/list?api_key=8b4d9144732c62a3656d7c80c4753668&language=en-US`
       );
       featuredData = await axios.get(
          `https://api.themoviedb.org/3/discover/${context.query.mediaType}?primary_release_year=2021&with_genres=${context.query.genre_id}&api_key=8b4d9144732c62a3656d7c80c4753668&language=en-US&append_to_response=videos`

@@ -13,10 +13,7 @@ const Account = () => {
    let accountRef = useRef();
    useEffect(() => {
       let handler = (event) => {
-         console.log("THIS IS EVENT TARGET");
-         console.log(event.target);
          if (!accountRef.current.contains(event.target)) {
-            console.log("Closing side nav");
             globalState.setAccountOpenAction(false);
          }
       };

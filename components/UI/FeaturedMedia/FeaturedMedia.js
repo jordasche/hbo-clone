@@ -7,6 +7,13 @@ const FeaturedMedia = (props) => {
    const clickedPlay = () => {
       togglePlaying();
    };
+
+   const [fullScreen, setFullScreen] = useState(false);
+   const toggleFullScreen = () => {
+      if (fullScreen === true) {
+         setFullScreen(false);
+      } else setFullScreen(true);
+   };
    const clickedTitle = () => {
       if (props.type === "main" || props.type === "discover") {
          router.push(props.mediaUrl);
@@ -39,11 +46,25 @@ const FeaturedMedia = (props) => {
       if (
          props.trailerID === "none" ||
          props.trailerID === null ||
-         props.trailerID === undefined
+         props.trailerID === undefined ||
+         props.trailerID === ""
       ) {
+         console.log("FOUND NOT VALID");
+         console.log(props.backdrop);
+         // `https://image.tmdb.org/t/p/w1280${props.backdrop}`;
+         console.log(props.poster);
          return (
             <img
-               src={`https://image.tmdb.org/t/p/w1280${props.backdrop}`}
+               src={`https://image.tmdb.org/t/p/w1280${
+                  props.backdrop === null ? props.poster : props.backdrop
+               }`}
+               // src={() => {
+               //    if (props.backdrop === null) {
+               //       return `https://image.tmdb.org/t/p/w1280${props.poster}`;
+               //    } else {
+               //       return `https://image.tmdb.org/t/p/w1280${props.backdrop}`;
+               //    }
+               // }}
                alt=""
                className="featured-media__img"
             />
@@ -74,8 +95,11 @@ const FeaturedMedia = (props) => {
    };
    return (
       <div
-         className={`featured-media 
-         ${getModifier()}`}
+         className={`featured-media ${
+            fullScreen ? "" : "featured-media--single"
+         }`}
+         //    `featured-media
+         // ${getModifier()}`}
       >
          {showMedia()}
          <div className="featured-media__bg">
@@ -95,6 +119,19 @@ const FeaturedMedia = (props) => {
                         // className="fas fa-play"
                         className={`${
                            playing ? "fas fa-pause" : "fas fa-play"
+                        }`}
+                     ></i>
+                  </div>
+                  <div
+                     className="featured-media__full-screen-btn"
+                     onClick={toggleFullScreen}
+                  >
+                     <i
+                        // className="fas fa-play"
+                        className={`${
+                           fullScreen
+                              ? "fas fa-chevron-up"
+                              : "fas fa-chevron-down"
                         }`}
                      ></i>
                   </div>

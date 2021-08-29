@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { shuffleArray } from "../utilities";
-import Link from "next/link";
+import Link from "next/dist/client/link";
+// import Link from "next/link";
 
 const MediaRow = (props) => {
    const [loadingData, setLoadingData] = useState(true);
@@ -40,8 +41,9 @@ const MediaRow = (props) => {
       return loadingData
          ? loopComp(<Skeleton />, 10)
          : movies.map((movie) => {
-              console.log("MOVIE: " + movie.title);
-              console.log(movie);
+              //   console.log("MOVIE: " + movie.title);
+              //   console.log(movie);
+              //   console.log(props.mediaType);
               return (
                  <Thumbnail
                     mediaType={props.mediaType}
@@ -97,6 +99,11 @@ const Skeleton = () => {
 };
 
 const Thumbnail = (props) => {
+   // console.log(
+   //    `${props.title}/${props.mediaType === "movie" ? "movie" : "tv"}/${
+   //       props.movieData.id
+   //    }`
+   // );
    const thumbSize = (type) => {
       if (type === "large-v") {
          return "400";
@@ -112,7 +119,7 @@ const Thumbnail = (props) => {
       }
    };
    return (
-      <Link
+      <a
          href={`/${props.mediaType === "movie" ? "movie" : "tv"}/${
             props.movieData.id
          }`}
@@ -129,7 +136,7 @@ const Thumbnail = (props) => {
                <h3 className="media-row__thumbnail-title">{props.title}</h3>
             </div>
          </div>
-      </Link>
+      </a>
    );
 };
 
