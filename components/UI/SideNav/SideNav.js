@@ -1,6 +1,6 @@
 import { useStateContext } from "../../HBOProvider";
 import { useEffect } from "react";
-import Link from "next/Link";
+import Link from "next/link";
 
 const SideNav = (props) => {
    const globalState = useStateContext();
