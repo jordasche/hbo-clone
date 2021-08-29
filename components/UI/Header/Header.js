@@ -25,7 +25,7 @@ const Header = (props) => {
          setHeaderBg(false);
       }
    };
-   window.addEventListener("scroll", changeHeader);
+   window.addEventListener("scroll", changeHeader, { passive: true });
 
    const toggleAccount = () => {
       if (globalState.accountOpen) {
