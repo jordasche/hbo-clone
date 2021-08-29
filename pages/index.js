@@ -49,6 +49,7 @@ export default function Home() {
             >
                <MediaRow
                   title="Movies"
+                  mediaType="movie"
                   type="large-v"
                   endpoint="discover/movie?sort_by=popularity.desc&primary_release_year=2021"
                ></MediaRow>
@@ -60,6 +61,7 @@ export default function Home() {
             >
                <MediaRow
                   title="Series"
+                  mediaType="series"
                   type="small-v"
                   endpoint="discover/tv?sort_by=popularity.desc&primary_release_year=2021"
                ></MediaRow>
@@ -70,6 +72,7 @@ export default function Home() {
                placeholder={<PlaceHolders type="small-h" />}
             >
                <MediaRow
+                  mediaType="movie"
                   title="Action"
                   type="small-h"
                   endpoint="discover/movie?with_genres=28&primary_release_year=2021"
@@ -81,6 +84,7 @@ export default function Home() {
                placeholder={<PlaceHolders type="large-h" />}
             >
                <MediaRow
+                  mediaType="movie"
                   title="Horror"
                   type="large-h"
                   endpoint="discover/movie?with_genres=27&primary_release_year=2021"
@@ -92,6 +96,7 @@ export default function Home() {
                placeholder={<PlaceHolders type="large-h" />}
             >
                <MediaRow
+                  mediaType="movie"
                   title="Animations"
                   type="large-h"
                   endpoint="discover/movie?with_genres=16&primary_release_year=2021"
@@ -103,6 +108,7 @@ export default function Home() {
                placeholder={<PlaceHolders type="large-v" />}
             >
                <MediaRow
+                  mediaType="movie"
                   title="Sci-fi"
                   type="large-v"
                   endpoint="discover/movie?with_genres=878&primary_release_year=2021"

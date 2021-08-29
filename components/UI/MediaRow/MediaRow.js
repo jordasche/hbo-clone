@@ -21,28 +21,68 @@ const MediaRow = (props) => {
          .then(function (error) {
             // console.log(error);
          });
-   }, []);
+   }, [props.updateData]);
 
    const loopComp = (comp, digit) => {
-      let thumbnails = [];
-      for (let index = 1; index <= digit; index++) {
-         thumbnails.push(comp);
-      }
+      let thumbnails = [
+         <Skeleton key={"a"} />,
+         <Skeleton key={"b"} />,
+         <Skeleton key={"c"} />,
+         <Skeleton key={"d"} />,
+         <Skeleton key={"e"} />,
+      ];
+      // for (let index = 1; index <= digit; index++) {
+      //    thumbnails.push(comp);
+      // }
       return thumbnails;
    };
    const showThumnails = (type) => {
       return loadingData
          ? loopComp(<Skeleton />, 10)
          : movies.map((movie) => {
-              return <Thumbnail movieData={movie} type={type} key={movie.id} />;
+              console.log("MOVIE: " + movie.title);
+              console.log(movie);
+              return (
+                 <Thumbnail
+                    mediaType={props.mediaType}
+                    movieData={movie}
+                    title={
+                       props.mediaType === "movie" ? movie.title : movie.name
+                    }
+                    type={type}
+                    key={movie.id}
+                 />
+              );
            });
    };
 
+   const scrollRight = () => {
+      document.getElementById(props.title).scrollLeft += 1800;
+
+      console.log("LEL");
+   };
+   const scrollLeft = () => {
+      document.getElementById(props.title).scrollLeft -= 1800;
+
+      console.log("LEL");
+   };
    return (
       <div className={`media-row ${props.type}`}>
          <h3 className="media-row__title">{props.title}</h3>
-         <div className="media-row__thumbnails">
+         <div className="media-row__thumbnails" id={props.title}>
+            <div
+               className="media-row__scroll-btn media-row__scroll-btn--left"
+               onClick={scrollLeft}
+            >
+               <i className="fas fa-chevron-left"></i>
+            </div>
             {showThumnails(props.type)}
+            <div
+               className="media-row__scroll-btn media-row__scroll-btn--right"
+               onClick={scrollRight}
+            >
+               <i className="fas fa-chevron-right"></i>
+            </div>
          </div>
       </div>
    );
@@ -72,7 +112,11 @@ const Thumbnail = (props) => {
       }
    };
    return (
-      <Link href={`/movie/${props.movieData.id}`}>
+      <Link
+         href={`/${props.mediaType === "movie" ? "movie" : "tv"}/${
+            props.movieData.id
+         }`}
+      >
          <div className="media-row__thumbnail">
             <img
                src={`https://image.tmdb.org/t/p/w${thumbSize(props.type)}${
@@ -82,10 +126,15 @@ const Thumbnail = (props) => {
             />
             <div className="media-row__top-layer">
                <i className="fas fa-play"></i>
+               <h3 className="media-row__thumbnail-title">{props.title}</h3>
             </div>
          </div>
       </Link>
    );
+};
+
+MediaRow.defaultProps = {
+   mediaType: "movie",
 };
 
 export default MediaRow;

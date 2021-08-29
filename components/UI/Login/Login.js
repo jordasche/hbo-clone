@@ -22,7 +22,7 @@ const Login = () => {
    console.log("declared users", users);
    const selectUser = (id) => {
       ls("activeUID", id);
-
+      globalState.setUser("BOB");
       router.push("/");
    };
 

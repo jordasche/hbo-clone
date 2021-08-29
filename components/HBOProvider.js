@@ -17,11 +17,13 @@ export function HBOProvider({ children }) {
    const [sideNavOpen, setSideNavOpenAction] = useState(false);
    const [accountOpen, setAccountOpenAction] = useState(false);
    const [searchOpen, setSearchOpenAction] = useState(false);
+   const thumbTypes = ["large-v", "small-v", "large-h", "small-h"];
    return (
       <StateContext.Provider
          value={{
             user,
             createUserAction,
+            setUser,
             defaultUserImg,
             setSideNavOpenAction,
             sideNavOpen,
@@ -29,6 +31,7 @@ export function HBOProvider({ children }) {
             setAccountOpenAction,
             searchOpen,
             setSearchOpenAction,
+            thumbTypes,
          }}
       >
          {children}

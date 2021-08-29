@@ -7,9 +7,14 @@ const CastInfo = (props) => {
    const [credits, setCredits] = useState([]);
 
    useEffect(() => {
+      console.log("THIS IS MEDIA TYPE: " + props.mediaType);
       axios
          .get(
-            `https://api.themoviedb.org/3/movie/${props.mediaID}/credits?api_key=8b4d9144732c62a3656d7c80c4753668&language=en-US`
+            `https://api.themoviedb.org/3/${
+               props.mediaType === "movie" ? "movie" : "tv"
+            }/${
+               props.mediaID
+            }/credits?api_key=8b4d9144732c62a3656d7c80c4753668&language=en-US`
          )
          .then(function (response) {
             setCredits(response.data);
@@ -20,13 +25,13 @@ const CastInfo = (props) => {
          .then(function (error) {
             // console.log(error);
          });
-   }, []);
+   }, [props.updateData]);
 
    const showCast = () => {
       if (loadingData !== true) {
-         return credits.cast.map((item) => {
+         return credits.cast.map((item, i) => {
             return (
-               <ul className="cast-info__crew" key={item.name}>
+               <ul className="cast-info__crew" key={i}>
                   <li>{item.name}</li>
                   <li>{item.character}</li>
                </ul>
@@ -38,9 +43,9 @@ const CastInfo = (props) => {
    };
    const showCrew = () => {
       if (loadingData !== true) {
-         return credits.crew.map((item) => {
+         return credits.crew.map((item, i) => {
             return (
-               <ul className="cast-info__crew" key={item.name}>
+               <ul className="cast-info__crew" key={i}>
                   <li>{item.name}</li>
                   <li>{item.job}</li>
                </ul>

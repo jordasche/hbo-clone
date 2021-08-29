@@ -1,7 +1,17 @@
 import { useStateContext } from "../../HBOProvider";
+import { useEffect } from "react";
+import Link from "next/Link";
 
 const SideNav = (props) => {
    const globalState = useStateContext();
+
+   useEffect(() => {
+      if (globalState.sideNavOpen) {
+         document.body.style.overflowY = "hidden";
+      } else {
+         document.body.style.overflowY = "auto";
+      }
+   }, [globalState.sideNavOpen]);
    const toggleSideNav = () => {
       if (globalState.sideNavOpen) {
          globalState.setSideNavOpenAction(false);
@@ -19,90 +29,23 @@ const SideNav = (props) => {
             <i className="fas fa-times"></i>
          </div>
          <ul className="side-nav__main">
-            <li>
-               <a href="/" className="active">
-                  Home
-               </a>
+            <li onClick={toggleSideNav}>
+               <Link href="/">
+                  <a>Home</a>
+               </Link>
             </li>
-            <li>
-               <a href="/" className="">
-                  Series
-               </a>
+            <li onClick={toggleSideNav}>
+               <Link href="/movie">
+                  <a>Movies</a>
+               </Link>
             </li>
-            <li>
-               <a href="/" className="">
-                  Movies
-               </a>
-            </li>
-            <li>
-               <a href="/" className="">
-                  Originals
-               </a>
-            </li>
-            <li>
-               <a href="/" className="">
-                  Just Added
-               </a>
-            </li>
-            <li>
-               <a href="/" className="">
-                  Last Chance
-               </a>
-            </li>
-            <li>
-               <a href="/" className="">
-                  Coming Soon
-               </a>
-            </li>
-            <li>
-               <a href="/" className="">
-                  Trending Now
-               </a>
+            <li onClick={toggleSideNav}>
+               <Link href="/tv">
+                  <a>Series</a>
+               </Link>
             </li>
          </ul>
          <div className="side-nav__divider" />
-         <ul className="side-nav__main">
-            <li>
-               <a href="/" className="">
-                  Home
-               </a>
-            </li>
-            <li>
-               <a href="/" className="">
-                  Series
-               </a>
-            </li>
-            <li>
-               <a href="/" className="">
-                  Movies
-               </a>
-            </li>
-            <li>
-               <a href="/" className="">
-                  Originals
-               </a>
-            </li>
-            <li>
-               <a href="/" className="">
-                  Just Added
-               </a>
-            </li>
-            <li>
-               <a href="/" className="">
-                  Last Chance
-               </a>
-            </li>
-            <li>
-               <a href="/" className="">
-                  Coming Soon
-               </a>
-            </li>
-            <li>
-               <a href="/" className="">
-                  Trending Now
-               </a>
-            </li>
-         </ul>
       </div>
    );
 };

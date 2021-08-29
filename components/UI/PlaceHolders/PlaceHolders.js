@@ -31,6 +31,15 @@ const PlaceHolders = (props) => {
             <div className="media-row__thumbnail-skeleton">
                <div className="media-row__thumbnail-skeleton-img"></div>
             </div>
+            <div className="media-row__thumbnail-skeleton">
+               <div className="media-row__thumbnail-skeleton-img"></div>
+            </div>
+            <div className="media-row__thumbnail-skeleton">
+               <div className="media-row__thumbnail-skeleton-img"></div>
+            </div>
+            <div className="media-row__thumbnail-skeleton">
+               <div className="media-row__thumbnail-skeleton-img"></div>
+            </div>
          </div>
       </div>
    );

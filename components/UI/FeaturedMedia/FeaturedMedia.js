@@ -8,12 +8,12 @@ const FeaturedMedia = (props) => {
       togglePlaying();
    };
    const clickedTitle = () => {
-      if (props.type === "main") {
+      if (props.type === "main" || props.type === "discover") {
          router.push(props.mediaUrl);
       }
    };
    const clickedMoreInfo = () => {
-      if (props.type === "main") {
+      if (props.type === "main" || props.type === "discover") {
          router.push(props.mediaUrl);
       }
    };
@@ -54,7 +54,7 @@ const FeaturedMedia = (props) => {
             <ReactPlayer
                url={`https://www.youtube.com/embed/${props.trailerID}`}
                muted={muted}
-               volume="0.5"
+               volume={1}
                className="featured-media__video"
                width="100%"
                height="100%"
@@ -64,8 +64,19 @@ const FeaturedMedia = (props) => {
          );
       }
    };
+
+   const getModifier = () => {
+      if (props.type === "single") {
+         return "featured-media--single";
+      } else {
+         return "";
+      }
+   };
    return (
-      <div className="featured-media">
+      <div
+         className={`featured-media 
+         ${getModifier()}`}
+      >
          {showMedia()}
          <div className="featured-media__bg">
             <div className="featured-media__container">
