@@ -1,6 +1,8 @@
 import { useStateContext } from "../../HBOProvider";
 import { useEffect, useState } from "react";
+import { Router, useRouter } from "next/dist/client/router";
 import axios from "axios";
+import Link from "next/dist/client/link";
 const SearchModal = (props) => {
    const globalState = useStateContext();
    const [popData, setPopData] = useState([]);
@@ -32,7 +34,7 @@ const SearchModal = (props) => {
          setSearchData(
             searchData.data.results.filter(
                (item, i) =>
-                  item.media_type === "tv" || item.mediaType === "movie"
+                  item.media_type === "tv" || item.media_type === "movie"
             )
          );
          setShowResults(true);
@@ -48,12 +50,19 @@ const SearchModal = (props) => {
          document.body.style.overflowY = "auto";
       }
    }, [globalState.searchOpen]);
-   const loopComp = (comp, digit) => {
-      let thumbnails = [];
-      for (let index = 1; index <= digit; index++) {
-         thumbnails.push(comp);
+
+   const router = useRouter();
+   const clickedThumbnail = (type, id) => {
+      if (type === "popular") {
+         router.push(`/movie/${id}`);
+         globalState.setSearchOpenAction(!globalState.searchOpen);
       }
-      return thumbnails;
+      if (type === "search") {
+         router.push(`/${media_type}/${id}`);
+         globalState.setSearchOpenAction(!globalState.searchOpen);
+      }
+
+      // console.log(object);
    };
    return (
       <div
@@ -77,20 +86,62 @@ const SearchModal = (props) => {
             </h3>
          </div>
 
-         <div className="search-modal__title">Popular Searches</div>
+         <div className="search-modal__title">
+            {showResults && searchData.length >= 1
+               ? `Search Result for ${text}`
+               : "Popular Searches"}
+         </div>
          <div className="search-modal__thumbnails">
-            <div className="search-modal__thumbnail">
-               <img
-                  src="https://i.etsystatic.com/13367669/r/il/db21fd/2198543930/il_570xN.2198543930_4qne.jpg"
-                  alt=""
+            {showResults && searchData.length >= 1 ? (
+               <SearchResults
+                  searchData={searchData}
+                  clickedThumbnail={clickedThumbnail}
                />
-               <div className="search-modal__top-layer">
-                  <i className="fas fa-play"></i>
-               </div>
-            </div>
+            ) : (
+               <PopularResults
+                  popData={popData}
+                  clickedThumbnail={clickedThumbnail}
+               />
+            )}
          </div>
       </div>
    );
+};
+
+const PopularResults = (props) => {
+   return props.popData.map((item, index) => {
+      return (
+         <div
+            key={index}
+            className="search-modal__thumbnail"
+            onClick={() => props.clickedThumbnail("popular", item.id)}
+         >
+            <img src={`https://image.tmdb.org/t/p/w185${item.poster_path}`} />
+            <div className="search-modal__top-layer">
+               <i className="fas fa-play"></i>
+               <h3 className="search-modal__thumbnail-title">{item.title}</h3>
+            </div>
+         </div>
+      );
+   });
+};
+const SearchResults = (props) => {
+   return props.searchData.map((item, index) => {
+      return (
+         <div
+            key={index}
+            className="search-modal__thumbnail"
+            onClick={() =>
+               props.clickedThumbnail("popular", item.id, item.media_type)
+            }
+         >
+            <img src={`https://image.tmdb.org/t/p/w185${item.poster_path}`} />
+            <div className="search-modal__top-layer">
+               <i className="fas fa-play"></i>
+            </div>
+         </div>
+      );
+   });
 };
 
 export default SearchModal;
