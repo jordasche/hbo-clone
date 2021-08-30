@@ -87,12 +87,12 @@ const SearchModal = (props) => {
          </div>
 
          <div className="search-modal__title">
-            {showResults && searchData.length >= 1
+            {showResults && searchData.length >= 1 && text.length > 0
                ? `Search Result for ${text}`
                : "Popular Searches"}
          </div>
          <div className="search-modal__thumbnails">
-            {showResults && searchData.length >= 1 ? (
+            {showResults && searchData.length >= 1 && text.length > 0 ? (
                <SearchResults
                   searchData={searchData}
                   clickedThumbnail={clickedThumbnail}
@@ -138,6 +138,7 @@ const SearchResults = (props) => {
             <img src={`https://image.tmdb.org/t/p/w185${item.poster_path}`} />
             <div className="search-modal__top-layer">
                <i className="fas fa-play"></i>
+               <h3 className="search-modal__thumbnail-title">{item.title}</h3>
             </div>
          </div>
       );
