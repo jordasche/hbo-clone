@@ -97,7 +97,10 @@ export default function MediaTypePage(props) {
                   props.query.mediaType === "movie" ? "movie" : "tv"
                }/${props.featuredData.id}}`}
                type="discover"
+               poster={props.featuredData.poster_path}
                backdrop={props.featuredData.backdrop_path}
+               mediaType={props.query.mediaType}
+               mediaId={props.featuredData.id}
             ></FeaturedMedia>
             <GenreNav
                mediaType={props.query.mediaType}

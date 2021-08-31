@@ -1,11 +1,22 @@
 import ReactPlayer from "react-player";
 import { useState } from "react";
 import { Router, useRouter } from "next/dist/client/router";
+import { useStateContext } from "../../HBOProvider";
 
 const FeaturedMedia = (props) => {
+   const globalState = useStateContext();
    const router = useRouter();
    const clickedPlay = () => {
       togglePlaying();
+   };
+
+   const clickedAdd = (props) => {
+      globalState.addToList({
+         mediaId: props.mediaId,
+         mediaType: props.mediaType,
+         mediaUrl: props.poster,
+      });
+      console.log("CLICKED TO ADD MOVIE");
    };
 
    const [fullScreen, setFullScreen] = useState(false);
@@ -136,6 +147,27 @@ const FeaturedMedia = (props) => {
                      ></i>
                   </div>
                   <div
+                     className="featured-media__add-btn"
+                     onClick={() => clickedAdd(props)}
+                  >
+                     <i
+                        // className="fas fa-play"
+                        className="fas fa-plus"
+                     ></i>
+                  </div>
+               </div>
+               <div className="featured-media__buttons-right">
+                  <div
+                     className="featured-media__mute-btn"
+                     onClick={toggleMute}
+                  >
+                     <i
+                        className={`${
+                           muted ? "fas fa-volume-mute" : "fas fa-volume-up"
+                        }`}
+                     ></i>
+                  </div>
+                  <div
                      className={`featured-media__info-btn ${
                         props.type === "single" ? "hide-comp" : ""
                      }`}
@@ -143,13 +175,6 @@ const FeaturedMedia = (props) => {
                   >
                      MORE INFO
                   </div>
-               </div>
-               <div className="featured-media__mute" onClick={toggleMute}>
-                  <i
-                     className={`${
-                        muted ? "fas fa-volume-mute" : "fas fa-volume-up"
-                     }`}
-                  ></i>
                </div>
             </div>
          </div>

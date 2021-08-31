@@ -93,6 +93,7 @@
       display: block;
       margin-bottom: 1rem;
       transition: color 0.2s ease-in-out;
+      cursor: pointer;
       &.active,
       &:hover {
          font-weight: 500;

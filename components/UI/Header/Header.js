@@ -3,6 +3,7 @@ import SearchModal from "../SearchModal/SearchModal";
 import { useStateContext } from "../../HBOProvider";
 import { useState } from "react";
 import Link from "next/link";
+import ls from "local-storage";
 
 const Header = (props) => {
    const globalState = useStateContext();
@@ -38,6 +39,29 @@ const Header = (props) => {
       }
    };
 
+   const getUserName = () => {
+      let users = ls.get("users");
+      let activeUID = ls.get("activeUID");
+      let activeUser;
+      console.log("LOCAL STORAGE");
+      console.log(users);
+      console.log("GLOBAL STATE");
+      console.log(ls.get("activeUID"));
+
+      activeUser = users.map((user, index) => {
+         if (user.id === activeUID) {
+            return user;
+         }
+      });
+      console.log("THIS IS THE ACTIVE USER");
+      console.log(activeUser);
+
+      activeUser = activeUser.filter((user) => user !== undefined);
+      console.log("FILTERED");
+      console.log(activeUser);
+      return activeUser[0].user;
+   };
+
    return (
       <>
          <header
@@ -64,7 +88,9 @@ const Header = (props) => {
 
             <div
                className="top-header__account"
-               onClick={toggleAccount}
+               onClick={() =>
+                  globalState.setAccountOpenAction(!globalState.accountOpen)
+               }
                style={{ cursor: "pointer" }}
             >
                <img
@@ -72,7 +98,7 @@ const Header = (props) => {
                   src="https://uifaces.co/our-content/donated/n4Ngwvi7.jpg"
                   alt="user profile picture"
                />
-               <div className="top-header__user-name">{globalState.name}</div>
+               <div className="top-header__user-name">{getUserName()}</div>
             </div>
             <Account></Account>
             <SearchModal></SearchModal>

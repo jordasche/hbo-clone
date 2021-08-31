@@ -78,37 +78,6 @@
       margin-bottom: 5rem;
    }
 
-   &__mute {
-      background: white;
-      color: black;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: absolute;
-      bottom: 90px;
-      right: 90px;
-      .fas {
-         transition: transform 0.3s ease-in-out;
-      }
-      &:hover {
-         background: linear-gradient(
-            328deg,
-            rgba(94, 158, 255, 1) 0%,
-            rgba(199, 30, 135, 1) 100%,
-            rgba(60, 38, 184, 1) 100%,
-            rgba(0, 0, 0, 1) 100%
-         );
-         color: white;
-
-         cursor: pointer;
-         .fas {
-            transform: scale(1.15);
-         }
-      }
-   }
    &__full-screen-btn {
       background: white;
       color: black;
@@ -134,6 +103,36 @@
          color: white;
          cursor: pointer;
 
+         .fas {
+            transform: scale(1.2);
+         }
+      }
+   }
+   &__add-btn {
+      background: transparent;
+      color: white;
+      border: solid 3px white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 20px;
+      transition: background 0.3s ease-in-out;
+      .fas {
+         transition: transform 0.3s ease-in-out;
+      }
+      &:hover {
+         background: linear-gradient(
+            328deg,
+            rgba(94, 158, 255, 1) 0%,
+            rgba(199, 30, 135, 1) 100%,
+            rgba(60, 38, 184, 1) 100%,
+            rgba(0, 0, 0, 1) 100%
+         );
+         color: white;
+         cursor: pointer;
          .fas {
             transform: scale(1.2);
          }
@@ -169,6 +168,17 @@
       }
    }
 
+   &__buttons-right {
+      position: absolute;
+      bottom: 0;
+      right: 100px;
+      max-width: 250px;
+      margin-bottom: 5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+   }
+
    &__info-btn {
       background: gray;
       color: white;
@@ -181,5 +191,36 @@
       align-items: center;
       border-radius: 20px;
       cursor: pointer;
+      margin-right: 20px;
+   }
+   &__mute-btn {
+      background: white;
+      color: black;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 20px;
+
+      .fas {
+         transition: transform 0.3s ease-in-out;
+      }
+      &:hover {
+         background: linear-gradient(
+            328deg,
+            rgba(94, 158, 255, 1) 0%,
+            rgba(199, 30, 135, 1) 100%,
+            rgba(60, 38, 184, 1) 100%,
+            rgba(0, 0, 0, 1) 100%
+         );
+         color: white;
+
+         cursor: pointer;
+         .fas {
+            transform: scale(1.15);
+         }
+      }
    }
 }

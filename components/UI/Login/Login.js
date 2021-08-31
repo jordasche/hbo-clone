@@ -29,6 +29,7 @@ const Login = () => {
    const showUsers = () => {
       if (!loadingUsers) {
          return users.map((user) => {
+            console.log(`${user.id} ${user.name}`);
             return (
                <div
                   onClick={() => selectUser(user.id)}

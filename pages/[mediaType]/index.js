@@ -90,6 +90,8 @@ export default function MediaTypePage(props) {
                }/${props.featuredData.id}}`}
                type="discover"
                backdrop={props.featuredData.backdrop_path}
+               mediaType={props.query.mediaType}
+               mediaId={props.featuredData.id}
             ></FeaturedMedia>
             <GenreNav
                mediaType={props.query.mediaType}

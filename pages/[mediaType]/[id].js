@@ -103,6 +103,8 @@ export default function SingleMediaPage(props) {
             overview={props.mediaData.overview}
             backdrop={props.mediaData.backdrop_path}
             poster={props.mediaData.poster_path}
+            mediaType={props.query.mediaType}
+            mediaId={props.query.id}
          ></FeaturedMedia>
          <LazyLoad
             height={680}

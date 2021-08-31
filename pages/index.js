@@ -47,7 +47,10 @@ export default function Home() {
                overview={featuredMovie.overview}
                mediaUrl="/movie/436969"
                backdrop={featuredMovie.backdrop_path}
+               poster={featuredMovie.poster_path}
                type="main"
+               mediaId={436969}
+               mediaType={"movie"}
             ></FeaturedMedia>
             <LazyLoad
                height={680}

@@ -1,5 +1,7 @@
 import { useStateContext } from "../../HBOProvider";
 import { useEffect, useRef } from "react";
+import { useRouter } from "next/router";
+import ls from "local-storage";
 const Account = () => {
    const globalState = useStateContext();
    useEffect(() => {
@@ -13,16 +15,79 @@ const Account = () => {
    let accountRef = useRef();
    useEffect(() => {
       let handler = (event) => {
-         if (!accountRef.current.contains(event.target)) {
+         console.log("HANDLER");
+         console.log(globalState.accountOpen);
+         console.log(event.target.className);
+         if (event.target.className === "top-header__user-img") {
+            //do nothing
+         } else if (!accountRef.current.contains(event.target)) {
             globalState.setAccountOpenAction(false);
          }
       };
       document.addEventListener("mousedown", handler);
-
       return () => {
          document.removeEventListener("mousedown", handler);
       };
    }, [accountRef]);
+
+   const router = useRouter();
+   const watchMedia = (url) => {
+      router.push(url);
+
+      globalState.setAccountOpenAction(!globalState.accountOpen);
+   };
+
+   const showWatchList = () => {
+      console.log("my watch list is printing an item");
+      // console.log(globalState.watchList[0].mediaUrl);
+      if (globalState.watchList !== null) {
+         console.log("IT's going in");
+         //src={`https://image.tmdb.org/t/p/w${item.mediaType}${item.mediaUrl}`}
+         // globalState.watchList.map((item, index) => {
+         //    console.log("LOL NUTZ");
+         //    console.log(item.mediaType);
+         //    console.log(item.mediaUrl);
+         // });
+         return globalState.watchList.map((item, index) => {
+            return (
+               <div className="account__watch-video" key={index}>
+                  <img
+                     src={`https://image.tmdb.org/t/p/w185${item.mediaUrl}`}
+                  />
+                  <div className="account__watch-overlay">
+                     <div className="account__watch-buttons">
+                        <div
+                           className="account__watch-circle"
+                           onClick={() =>
+                              watchMedia(`/${item.mediaType}/${item.mediaId}`)
+                           }
+                        >
+                           <i className="fas fa-play"></i>
+                        </div>
+                        <div
+                           className="account__watch-circle"
+                           onClick={() =>
+                              globalState.removeFromList(item.mediaId)
+                           }
+                        >
+                           <i className="fas fa-times"></i>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            );
+         });
+      }
+   };
+
+   const pushToLogin = () => {
+      router.push("/login");
+   };
+   const signOut = () => {
+      ls.remove("users");
+      globalState.setUser("");
+      router.push("/");
+   };
    return (
       <div
          className={`account ${
@@ -33,22 +98,9 @@ const Account = () => {
          <div className="account__details">
             <div className="account__title">My List</div>
             <div className="account__watch-list">
-               <div className="account__watch-video">
-                  <img
-                     src="https://m.media-amazon.com/images/I/71BPuv+iRbL._AC_SY741_.jpg"
-                     alt="back to the future movie poster"
-                  />
-                  <div className="account__watch-overlay">
-                     <div className="account__watch-buttons">
-                        <div className="account__watch-circle">
-                           <i className="fas fa-play"></i>
-                        </div>
-                        <div className="account__watch-circle">
-                           <i className="fas fa-times"></i>
-                        </div>
-                     </div>
-                  </div>
-               </div>
+               {globalState.watchList !== null
+                  ? showWatchList()
+                  : "Sorry No Movies Added"}
             </div>
          </div>
          <div className="account__menu">
@@ -61,11 +113,11 @@ const Account = () => {
             </ul>
             <div className="side-nav__divider"></div>
             <ul className="account__main">
-               <li>
-                  <a href="/">Account</a>
+               <li onClick={pushToLogin}>
+                  <a>Account</a>
                </li>
                <li>
-                  <a href="/">Sign Out</a>
+                  <a onClick={signOut}>Sign Out</a>
                </li>
             </ul>
          </div>
