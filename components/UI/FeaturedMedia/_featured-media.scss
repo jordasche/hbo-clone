@@ -224,3 +224,38 @@
       }
    }
 }
+
+@media only screen and (max-width: 600px) {
+   .featured-media {
+      &__title {
+         font-size: 3rem;
+      }
+      &__overview {
+         font-size: 0.5rem;
+      }
+      &__buttons {
+         margin-bottom: 2rem;
+         margin-right: 0;
+         justify-content: flex-start;
+      }
+      &__bg {
+         opacity: 1;
+      }
+      &__buttons-right {
+         margin-bottom: 2rem;
+         bottom: 0;
+         right: 0;
+         // width: 10%;
+      }
+      &__mute-btn {
+         // height: 30px;
+         // width: 30px;
+      }
+      &__full-screen-btn,
+      &__info-btn {
+         display: none;
+         visibility: hidden;
+         opacity: 0;
+      }
+   }
+}
