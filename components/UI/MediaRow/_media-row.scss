@@ -263,5 +263,46 @@
       &__scroll-btn {
          display: none;
       }
+
+      &.large-v {
+         .media-row__thumbnail {
+            width: 240px;
+            height: 360px;
+
+            img {
+               width: 240px;
+               height: 360px;
+            }
+         }
+         .media-row__thumbnail-skeleton {
+            width: 240px;
+            height: 360px;
+            margin-right: 10px;
+         }
+         .media-row__thumbnail-skeleton-img {
+            width: 240px;
+            height: 360px;
+         }
+      }
+      &.small-v {
+         .media-row__thumbnail {
+            width: 180px;
+            height: 300px;
+
+            img {
+               width: 180px;
+               height: 300px;
+            }
+         }
+         .media-row__thumbnail-skeleton {
+            width: 180px;
+            height: 300px;
+            margin-right: 10px;
+         }
+         .media-row__thumbnail-skeleton-img {
+            width: 180px;
+            height: 300px;
+         }
+      }
    }
 }

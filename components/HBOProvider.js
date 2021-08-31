@@ -39,7 +39,8 @@ export function HBOProvider({ children }) {
       setWatchList(myList);
    };
 
-   const thumbTypes = ["large-v", "small-v", "large-h", "small-h"];
+   // const thumbTypes = ["large-v", "small-v", "large-h", "small-h"];
+   const thumbTypes = ["large-v", "small-v"];
 
    return (
       <StateContext.Provider
