@@ -15,9 +15,6 @@ const Account = () => {
    let accountRef = useRef();
    useEffect(() => {
       let handler = (event) => {
-         console.log("HANDLER");
-         console.log(globalState.accountOpen);
-         console.log(event.target.className);
          if (event.target.className === "top-header__user-img") {
             //do nothing
          } else if (!accountRef.current.contains(event.target)) {
@@ -38,16 +35,7 @@ const Account = () => {
    };
 
    const showWatchList = () => {
-      console.log("my watch list is printing an item");
-      // console.log(globalState.watchList[0].mediaUrl);
       if (globalState.watchList !== null) {
-         console.log("IT's going in");
-         //src={`https://image.tmdb.org/t/p/w${item.mediaType}${item.mediaUrl}`}
-         // globalState.watchList.map((item, index) => {
-         //    console.log("LOL NUTZ");
-         //    console.log(item.mediaType);
-         //    console.log(item.mediaUrl);
-         // });
          return globalState.watchList.map((item, index) => {
             return (
                <div className="account__watch-video" key={index}>

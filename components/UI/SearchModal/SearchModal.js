@@ -18,7 +18,6 @@ const SearchModal = (props) => {
 
          setPopData(popData.data.results.filter((item, i) => i < 14));
          setShowResults(false);
-         console.log("popData", popData.data.results);
       } catch (error) {
          console.log(error);
       }
@@ -61,8 +60,6 @@ const SearchModal = (props) => {
          router.push(`/${media_type}/${id}`);
          globalState.setSearchOpenAction(!globalState.searchOpen);
       }
-
-      // console.log(object);
    };
    return (
       <div

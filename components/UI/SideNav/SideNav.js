@@ -8,7 +8,6 @@ const SideNav = (props) => {
    const globalState = useStateContext();
 
    const handleClickOutside = (event) => {
-      console.log("hi");
       toggleSideNav();
    };
 

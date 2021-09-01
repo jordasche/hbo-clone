@@ -18,8 +18,7 @@ export default function MediaTypePage(props) {
    const router = useRouter();
    const showRandomMedia = () => {
       let thumbType;
-      console.log("GENRES DATA IN FUNC");
-      console.log(props.genresData);
+
       return props.genresData.map((item, index) => {
          thumbType = shuffleArray(globalState.thumbTypes)[0];
          return (
@@ -48,11 +47,7 @@ export default function MediaTypePage(props) {
 
    const [trailerID, setTrailerID] = useState("");
 
-   useEffect(() => {
-      console.log("BALLS");
-      console.log(props.featuredData.title);
-      console.log(props.query.mediaType);
-   }, []);
+   useEffect(() => {}, []);
    const setFeaturedMediaTrailer = async () => {
       let response;
       let videoArray;
@@ -125,7 +120,6 @@ export async function getServerSideProps(context) {
          `https://api.themoviedb.org/3/discover/${context.query.mediaType}?primary_release_year=2021&with_genres=${context.query.genre_id}&api_key=8b4d9144732c62a3656d7c80c4753668&language=en-US&append_to_response=videos`
       );
    } catch (error) {
-      console.log("error LOLZ");
       console.log(error);
    }
 

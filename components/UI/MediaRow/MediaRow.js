@@ -16,11 +16,9 @@ const MediaRow = (props) => {
          .then(function (response) {
             setMovies(shuffleArray(response.data.results));
             setLoadingData(false);
-            // console.log("Success Response For " + props.title);
-            // console.log(response);
          })
          .then(function (error) {
-            // console.log(error);
+            console.log(error);
          });
    }, [props.updateData]);
 
@@ -41,9 +39,6 @@ const MediaRow = (props) => {
       return loadingData
          ? loopComp(<Skeleton />, 10)
          : movies.map((movie) => {
-              //   console.log("MOVIE: " + movie.title);
-              //   console.log(movie);
-              //   console.log(props.mediaType);
               return (
                  <Thumbnail
                     mediaType={props.mediaType}
@@ -60,13 +55,9 @@ const MediaRow = (props) => {
 
    const scrollRight = () => {
       document.getElementById(props.title).scrollLeft += 1800;
-
-      console.log("LEL");
    };
    const scrollLeft = () => {
       document.getElementById(props.title).scrollLeft -= 1800;
-
-      console.log("LEL");
    };
    return (
       <div className={`media-row ${props.type}`}>
@@ -99,11 +90,6 @@ const Skeleton = () => {
 };
 
 const Thumbnail = (props) => {
-   // console.log(
-   //    `${props.title}/${props.mediaType === "movie" ? "movie" : "tv"}/${
-   //       props.movieData.id
-   //    }`
-   // );
    const thumbSize = (type) => {
       if (type === "large-v") {
          return "400";

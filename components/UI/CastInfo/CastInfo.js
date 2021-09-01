@@ -7,7 +7,6 @@ const CastInfo = (props) => {
    const [credits, setCredits] = useState([]);
 
    useEffect(() => {
-      console.log("THIS IS MEDIA TYPE: " + props.mediaType);
       axios
          .get(
             `https://api.themoviedb.org/3/${
@@ -19,12 +18,8 @@ const CastInfo = (props) => {
          .then(function (response) {
             setCredits(response.data);
             setLoadingData(false);
-            // console.log("Success Response For Cast and Crew" + props.title);
-            // console.log(response);
          })
-         .then(function (error) {
-            // console.log(error);
-         });
+         .then(function (error) {});
    }, [props.updateData]);
 
    const showCast = () => {

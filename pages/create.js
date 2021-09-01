@@ -20,8 +20,6 @@ export default function Create() {
          users.push(user);
          ls("users", users);
          router.push("/login");
-         console.log("users: ", users);
-         console.log("lsusers: ", ls("users"));
       } else {
          users = ls("users");
          user = {

@@ -12,7 +12,6 @@ export function HBOProvider({ children }) {
    const defaultUserImg = "https://uifaces.co/our-content/donated/n4Ngwvi7.jpg";
    const createUserAction = (e) => {
       setUser(e.target.value);
-      console.log(2 + 2);
    };
 
    const [sideNavOpen, setSideNavOpenAction] = useState(false);

@@ -9,33 +9,11 @@ function shuffleArray(array) {
    return array;
 }
 
-// const getValidVideo = (allTrailerInfo) => {
-//    let success = false;
-//    for (let trailer of allTrailerInfo) {
-//       trailer.then((result) => {
-//          if (
-//             "ytRating" in
-//                result.videoInfo.data.items[0].contentDetails.contentRating ||
-//             "regionRestriction" in result.videoInfo.data.items[0].contentDetails
-//          ) {
-//             console.log("NOT VALID TRAILER");
-//          } else {
-//             success = true;
-//             console.log("Valid Trailer");
-//             return resolve(result.trailer);
-//          }
-//       });
-//       if (success) {
-//          break;
-//       }
-//    }
-// };
-
 const getTrailers = (trailers) => {
    let allTrailerInfo,
       videoInfo,
       success = false;
-   console.log(`IT's REACHING HERE AT LEASTT ${trailers[0]}`);
+
    return new Promise((resolve, reject) => {
       allTrailerInfo = trailers.map(async (trailer) => {
          try {
@@ -48,23 +26,19 @@ const getTrailers = (trailers) => {
 
          return { trailer, videoInfo };
       });
-      console.log(allTrailerInfo);
+
       for (let trailer of allTrailerInfo) {
          trailer.then((result) => {
-            console.log("RESILT IN UTZZZZZ");
-            console.log(result);
             if (result.videoInfo.data.items.length < 1) {
-               console.log("NOT VALID TRAILER");
             } else if (
                "ytRating" in
                   result.videoInfo.data.items[0].contentDetails.contentRating ||
                "regionRestriction" in
                   result.videoInfo.data.items[0].contentDetails
             ) {
-               console.log("NOT VALID TRAILER");
             } else {
                success = true;
-               console.log("Valid Trailer");
+
                return resolve(result.trailer);
             }
          });
@@ -80,8 +54,7 @@ const filterTrailer = async (trailers) => {
    let finalTrailer = [];
 
    finalTrailer = await getTrailers(trailers);
-   console.log("THIS IS THE FINAL TRAILER");
-   console.log(finalTrailer);
+
    return finalTrailer;
 };
 
@@ -97,11 +70,8 @@ async function extractTrailer(videos) {
       return videos[0];
    } else if (onlyTrailers.length > 0) {
       finalTrailer = await filterTrailer(onlyTrailers);
-      console.log("FINAL TRAILER IN UTILITIES");
-      console.log(finalTrailer);
 
       if (finalTrailer.length < 1 || finalTrailer === undefined) {
-         console.log("LODU");
          return videos[0];
       } else return finalTrailer;
    }

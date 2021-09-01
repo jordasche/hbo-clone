@@ -43,22 +43,15 @@ const Header = (props) => {
       let users = ls.get("users");
       let activeUID = ls.get("activeUID");
       let activeUser;
-      console.log("LOCAL STORAGE");
-      console.log(users);
-      console.log("GLOBAL STATE");
-      console.log(ls.get("activeUID"));
 
       activeUser = users.map((user, index) => {
          if (user.id === activeUID) {
             return user;
          }
       });
-      console.log("THIS IS THE ACTIVE USER");
-      console.log(activeUser);
 
       activeUser = activeUser.filter((user) => user !== undefined);
-      console.log("FILTERED");
-      console.log(activeUser);
+
       return activeUser[0].user;
    };
 

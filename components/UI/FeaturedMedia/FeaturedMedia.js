@@ -16,7 +16,6 @@ const FeaturedMedia = (props) => {
          mediaType: props.mediaType,
          mediaUrl: props.poster,
       });
-      console.log("CLICKED TO ADD MOVIE");
    };
 
    const [fullScreen, setFullScreen] = useState(false);
@@ -53,17 +52,12 @@ const FeaturedMedia = (props) => {
    };
 
    const showMedia = () => {
-      console.log("Trailer ID: ", props.trailerID);
       if (
          props.trailerID === "none" ||
          props.trailerID === null ||
          props.trailerID === undefined ||
          props.trailerID === ""
       ) {
-         console.log("FOUND NOT VALID");
-         console.log(props.backdrop);
-         // `https://image.tmdb.org/t/p/w1280${props.backdrop}`;
-         console.log(props.poster);
          return (
             <img
                src={`https://image.tmdb.org/t/p/w1280${

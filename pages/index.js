@@ -33,11 +33,6 @@ export default function Home() {
          });
    }, []);
 
-   useEffect(() => {
-      console.log("INDEX TRAILER ID");
-      console.log(trailerID);
-   }, [trailerID]);
-
    return AuthCheck(
       <div>
          <MainLayout>
