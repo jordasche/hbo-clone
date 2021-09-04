@@ -17,36 +17,12 @@ export default function SingleMediaPage(props) {
    const [trailerID, setTrailerID] = useState(props.finalTrailer.key);
 
    useEffect(() => {
-      setTrailerID(props.finalTrailer.key);
+      setTrailerID(props.trailerID);
    }, [props.finalTrailer]);
 
-   const setFeaturedMediaTrailer = async () => {
-      let response;
-      let videoArray;
-      try {
-         response = await axios.get(
-            `https://api.themoviedb.org/3/${props.query.mediaType}/${props.mediaData.id}?api_key=8b4d9144732c62a3656d7c80c4753668&language=en-US&append_to_response=videos,providers`
-         );
-      } catch (error) {
-         console.log(error);
-      }
-
-      videoArray = response.data.videos.results;
-      let finalTrailer = await extractTrailer(videoArray);
-
-      if (
-         finalTrailer === null ||
-         finalTrailer === [] ||
-         finalTrailer === undefined
-      ) {
-         setTrailerID("none");
-      } else {
-         setTrailerID(finalTrailer.key);
-      }
-   };
-   useEffect(() => {
-      setFeaturedMediaTrailer();
-   }, [props.mediaData]);
+   // useEffect(() => {
+   //    setFeaturedMediaTrailer();
+   // }, [props.mediaData]);
    return AuthCheck(
       <MainLayout>
          <FeaturedMedia
@@ -91,11 +67,36 @@ export default function SingleMediaPage(props) {
 export async function getServerSideProps(context) {
    let mediaData;
    let finalTrailer = "lol";
+   let trailerID;
+   const getFeaturedMediaTrailer = async () => {
+      let response;
+      let videoArray;
+      try {
+         response = await axios.get(
+            `https://api.themoviedb.org/3/${context.query.mediaType}/${context.query.id}?api_key=${process.env.MOVIE_DB_KEY}&language=en-US&append_to_response=videos,providers`
+         );
+      } catch (error) {
+         console.log(error);
+      }
 
+      videoArray = response.data.videos.results;
+      let finalTrailer = await extractTrailer(videoArray);
+
+      if (
+         finalTrailer === null ||
+         finalTrailer === [] ||
+         finalTrailer === undefined
+      ) {
+         return "none";
+      } else {
+         return finalTrailer.key;
+      }
+   };
    try {
       mediaData = await axios.get(
-         `https://api.themoviedb.org/3/${context.query.mediaType}/${context.query.id}?api_key=8b4d9144732c62a3656d7c80c4753668&language=en-US&append_to_response=videos`
+         `https://api.themoviedb.org/3/${context.query.mediaType}/${context.query.id}?api_key=${process.env.MOVIE_DB_KEY}&language=en-US&append_to_response=videos`
       );
+      trailerID = await getFeaturedMediaTrailer();
    } catch (error) {
       console.log(error);
    }
@@ -103,6 +104,7 @@ export async function getServerSideProps(context) {
    return {
       props: {
          finalTrailer: finalTrailer,
+         trailerID: trailerID,
          mediaData: mediaData.data,
          query: context.query,
       },
