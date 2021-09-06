@@ -51,7 +51,7 @@ const SearchModal = (props) => {
    }, [globalState.searchOpen]);
 
    const router = useRouter();
-   const clickedThumbnail = (type, id) => {
+   const clickedThumbnail = (type, id, media_type) => {
       if (type === "popular") {
          router.push(`/movie/${id}`);
          globalState.setSearchOpenAction(!globalState.searchOpen);
@@ -129,7 +129,7 @@ const SearchResults = (props) => {
             key={index}
             className="search-modal__thumbnail"
             onClick={() =>
-               props.clickedThumbnail("popular", item.id, item.media_type)
+               props.clickedThumbnail("search", item.id, item.media_type)
             }
          >
             <img src={`https://image.tmdb.org/t/p/w185${item.poster_path}`} />

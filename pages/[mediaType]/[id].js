@@ -18,7 +18,7 @@ export default function SingleMediaPage(props) {
 
    useEffect(() => {
       setTrailerID(props.trailerID);
-   }, [props.finalTrailer]);
+   }, [props.trailerID]);
 
    // useEffect(() => {
    //    setFeaturedMediaTrailer();
@@ -41,7 +41,7 @@ export default function SingleMediaPage(props) {
          ></FeaturedMedia>
          <LazyLoad
             height={680}
-            offset={-400}
+            offset={-100}
             placeholder={<PlaceHolders type="large-v" />}
          >
             <MediaRow

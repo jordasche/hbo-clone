@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { shuffleArray } from "../utilities";
 import Link from "next/dist/client/link";
+
 // import Link from "next/link";
 
 const MediaRow = (props) => {
@@ -9,6 +10,7 @@ const MediaRow = (props) => {
    const [movies, setMovies] = useState([]);
 
    useEffect(() => {
+      setLoadingData(true);
       axios
          .get(
             `https://api.themoviedb.org/3/${props.endpoint}&api_key=8b4d9144732c62a3656d7c80c4753668&language=en-US`
@@ -20,6 +22,7 @@ const MediaRow = (props) => {
          .then(function (error) {
             console.log(error);
          });
+      setLoadingData(true);
    }, [props.updateData]);
 
    const loopComp = (comp, digit) => {
@@ -105,7 +108,7 @@ const Thumbnail = (props) => {
       }
    };
    return (
-      <a
+      <Link
          href={`/${props.mediaType === "movie" ? "movie" : "tv"}/${
             props.movieData.id
          }`}
@@ -122,7 +125,7 @@ const Thumbnail = (props) => {
                <h3 className="media-row__thumbnail-title">{props.title}</h3>
             </div>
          </div>
-      </a>
+      </Link>
    );
 };
 
