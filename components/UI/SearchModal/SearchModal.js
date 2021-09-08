@@ -24,21 +24,42 @@ const SearchModal = (props) => {
    }, []);
 
    const handleInput = async (e) => {
-      try {
-         setText(e.target.value);
-         let searchData = await axios.get(
-            `https://api.themoviedb.org/3/search/multi?query=${e.target.value}&api_key=8b4d9144732c62a3656d7c80c4753668&language=en-US`
-         );
+      let peopleResults = [];
+      let peopleMedia = [];
 
-         setSearchData(
-            searchData.data.results.filter(
+      setText(e.target.value);
+      if (e.target.value.length > 0) {
+         try {
+            let axiosData = await axios.get(
+               `https://api.themoviedb.org/3/search/multi?query=${e.target.value}&api_key=8b4d9144732c62a3656d7c80c4753668&language=en-US`
+            );
+
+            let axiosDataFiltered = axiosData.data.results.filter(
                (item, i) =>
                   item.media_type === "tv" || item.media_type === "movie"
-            )
-         );
-         setShowResults(true);
-      } catch (error) {
-         console.log(error);
+            );
+            setSearchData(axiosDataFiltered);
+            peopleResults = axiosData.data.results.map((result, i) => {
+               if (result.media_type === "person") {
+                  return result.known_for;
+               }
+            });
+            if (peopleResults.length > 0) {
+               peopleResults = peopleResults.filter(function (element) {
+                  return element !== undefined;
+               });
+            }
+
+            peopleResults.forEach((result) => {
+               if (result.length > 0) peopleMedia.push(...result);
+            });
+            if (peopleMedia.length > 0) {
+               setSearchData(axiosDataFiltered.concat(peopleMedia));
+            }
+            setShowResults(true);
+         } catch (error) {
+            console.log(error);
+         }
       }
    };
 
@@ -123,7 +144,20 @@ const PopularResults = (props) => {
    });
 };
 const SearchResults = (props) => {
+   const getPosterPath = (item) => {
+      if (item.poster_path !== undefined && item.poster_path !== null) {
+         return `https://image.tmdb.org/t/p/w185${item.poster_path}`;
+      } else {
+         return "";
+      }
+   };
    return props.searchData.map((item, index) => {
+      let posterPath;
+      if (item.poster_path !== undefined && item.poster_path !== null) {
+         posterPath = `https://image.tmdb.org/t/p/w185${item.poster_path}`;
+      } else {
+         posterPath = "";
+      }
       return (
          <div
             key={index}
@@ -132,7 +166,7 @@ const SearchResults = (props) => {
                props.clickedThumbnail("search", item.id, item.media_type)
             }
          >
-            <img src={`https://image.tmdb.org/t/p/w185${item.poster_path}`} />
+            <img src={posterPath} />
             <div className="search-modal__top-layer">
                <i className="fas fa-play"></i>
                <h3 className="search-modal__thumbnail-title">{item.title}</h3>
