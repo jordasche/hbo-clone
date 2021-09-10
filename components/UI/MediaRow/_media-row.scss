@@ -13,6 +13,8 @@
       width: calc(100vw-70px);
       overflow-x: scroll;
       scroll-behavior: smooth;
+      scrollbar-width: none;
+      overflow-y: hidden;
 
       &:hover {
          .media-row__scroll-btn {
