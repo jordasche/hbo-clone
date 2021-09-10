@@ -11,8 +11,16 @@ const FeaturedMedia = (props) => {
    };
 
    const [notification, setNotification] = useState("");
+
+   useEffect(() => {
+      setTimeout(() => {
+         globalState.setShowAdded(false);
+      }, 2000);
+   }, [globalState.showAdded]);
+
    const clickedAdd = (props) => {
       let found = null;
+      setNotification("LEL");
       if (globalState.watchList !== null) {
          found = globalState.watchList.find(
             (item) =>
@@ -20,7 +28,8 @@ const FeaturedMedia = (props) => {
                item.mediaType === props.mediaType
          );
       }
-      if (found === undefined) {
+
+      if (found === undefined || found === null) {
          globalState.addToList({
             mediaId: props.mediaId,
             mediaType: props.mediaType,

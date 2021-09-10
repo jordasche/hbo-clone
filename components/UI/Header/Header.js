@@ -19,12 +19,6 @@ const Header = (props) => {
       }
    };
 
-   useEffect(() => {
-      setTimeout(() => {
-         globalState.setShowAdded(false);
-      }, 2000);
-   }, [globalState.showAdded]);
-
    const changeHeader = () => {
       if (window.scrollY >= 785) {
          setHeaderBg(true);
