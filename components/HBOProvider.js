@@ -18,6 +18,8 @@ export function HBOProvider({ children }) {
    const [accountOpen, setAccountOpenAction] = useState(false);
    const [searchOpen, setSearchOpenAction] = useState(false);
    const [watchList, setWatchList] = useState(ls.get("myList"));
+   const [showAdded, setShowAdded] = useState(false);
+   const [featuredId, setFeaturedId] = useState(null);
 
    const addToList = (video) => {
       let myList;
@@ -58,6 +60,10 @@ export function HBOProvider({ children }) {
             removeFromList,
             addToList,
             watchList,
+            showAdded,
+            setShowAdded,
+            featuredId,
+            setFeaturedId,
          }}
       >
          {children}

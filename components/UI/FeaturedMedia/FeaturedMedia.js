@@ -1,5 +1,5 @@
 import ReactPlayer from "react-player";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Router, useRouter } from "next/dist/client/router";
 import { useStateContext } from "../../HBOProvider";
 
@@ -10,13 +10,46 @@ const FeaturedMedia = (props) => {
       togglePlaying();
    };
 
+   const [notification, setNotification] = useState("");
    const clickedAdd = (props) => {
-      globalState.addToList({
-         mediaId: props.mediaId,
-         mediaType: props.mediaType,
-         mediaUrl: props.poster,
-      });
+      let found = null;
+      if (globalState.watchList !== null) {
+         found = globalState.watchList.find(
+            (item) =>
+               item.mediaId === props.mediaId &&
+               item.mediaType === props.mediaType
+         );
+      }
+      if (found === undefined) {
+         globalState.addToList({
+            mediaId: props.mediaId,
+            mediaType: props.mediaType,
+            mediaUrl: props.poster,
+            mediaTitle: props.title,
+         });
+         setNotification(`Added "${props.title}" to Watch List`);
+      } else if (found !== null) {
+         globalState.removeFromList(found.mediaId);
+         setNotification(`Removed "${props.title}" from Watch List`);
+      }
+
+      globalState.setShowAdded(true);
    };
+
+   const [inWatchList, setInWatchList] = useState(false);
+   useEffect(() => {
+      setInWatchList(false);
+      if (globalState.watchList !== null) {
+         globalState.watchList.forEach((item) => {
+            if (
+               item.mediaId === props.mediaId &&
+               item.mediaType === props.mediaType
+            ) {
+               setInWatchList(true);
+            }
+         });
+      }
+   }, [globalState.watchList, props.mediaId]);
 
    const [fullScreen, setFullScreen] = useState(false);
    const toggleFullScreen = () => {
@@ -91,13 +124,9 @@ const FeaturedMedia = (props) => {
       }
    };
 
-   const getModifier = () => {
-      if (props.type === "single") {
-         return "featured-media--single";
-      } else {
-         return "";
-      }
-   };
+   useEffect(() => {
+      globalState.setFeaturedId(props.mediaId);
+   }, []);
    return (
       <div
          className={`featured-media ${
@@ -109,6 +138,17 @@ const FeaturedMedia = (props) => {
          {showMedia()}
          <div className="featured-media__bg">
             <div className="featured-media__container">
+               <div
+                  className={`featured-media__watch-list-notif ${
+                     globalState.showAdded
+                        ? "featured-media__watch-list-notif--active"
+                        : ""
+                  }`}
+               >
+                  <div className="featured-media__notif-title">
+                     {notification}
+                  </div>
+               </div>
                <div className="featured-media__title" onClick={clickedTitle}>
                   {props.title}
                </div>
@@ -146,7 +186,9 @@ const FeaturedMedia = (props) => {
                   >
                      <i
                         // className="fas fa-play"
-                        className="fas fa-plus"
+                        className={`${
+                           inWatchList ? "fas fa-times" : "fas fa-plus"
+                        }`}
                      ></i>
                   </div>
                </div>

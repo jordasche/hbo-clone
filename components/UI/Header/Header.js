@@ -1,9 +1,9 @@
 import Account from "../Account/Account";
 import SearchModal from "../SearchModal/SearchModal";
 import { useStateContext } from "../../HBOProvider";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import ls from "local-storage";
+import ls, { remove } from "local-storage";
 
 const Header = (props) => {
    const globalState = useStateContext();
@@ -19,6 +19,12 @@ const Header = (props) => {
       }
    };
 
+   useEffect(() => {
+      setTimeout(() => {
+         globalState.setShowAdded(false);
+      }, 2000);
+   }, [globalState.showAdded]);
+
    const changeHeader = () => {
       if (window.scrollY >= 785) {
          setHeaderBg(true);
@@ -27,17 +33,6 @@ const Header = (props) => {
       }
    };
    window.addEventListener("scroll", changeHeader, { passive: true });
-
-   const toggleAccount = () => {
-      if (globalState.accountOpen) {
-         globalState.setAccountOpenAction(false);
-      } else {
-         if (globalState.sideNavOpen) {
-            globalState.setSideNavOpenAction(false);
-         }
-         globalState.setAccountOpenAction(true);
-      }
-   };
 
    const getUserName = () => {
       let users = ls.get("users");

@@ -15,7 +15,10 @@ const Account = () => {
    let accountRef = useRef();
    useEffect(() => {
       let handler = (event) => {
-         if (event.target.className === "top-header__user-img") {
+         if (
+            event.target.className === "top-header__user-img" ||
+            event.target.className === "top-header__user-name"
+         ) {
             //do nothing
          } else if (!accountRef.current.contains(event.target)) {
             globalState.setAccountOpenAction(false);
