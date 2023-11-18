@@ -11,6 +11,9 @@ const FeaturedMedia = (props) => {
    };
 
    const [notification, setNotification] = useState("");
+   const [inWatchList, setInWatchList] = useState(
+      globalState.isInWatchList(props.mediaId)
+   );
 
    useEffect(() => {
       setTimeout(() => {
@@ -18,14 +21,22 @@ const FeaturedMedia = (props) => {
       }, 2000);
    }, [globalState.showAdded]);
 
+   function convertMinstoDuration(timeInMins) {
+      let hours = Math.floor(timeInMins / 60);
+      let mins = timeInMins % 60;
+      return `${hours}H ${mins}m`;
+   }
+
    const clickedAdd = (props) => {
       let found = null;
       setNotification("LEL");
       if (globalState.watchList !== null) {
          found = globalState.watchList.find(
             (item) =>
-               item.mediaId === props.mediaId &&
-               item.mediaType === props.mediaType
+               (item.mediaId === props.mediaId &&
+                  item.mediaType === props.mediaType) ||
+               (item.mediaId == props.mediaId &&
+                  item.mediaType == props.mediaType)
          );
       }
 
@@ -36,8 +47,10 @@ const FeaturedMedia = (props) => {
             mediaUrl: props.poster,
             mediaTitle: props.title,
          });
+         setInWatchList(true);
          setNotification(`Added "${props.title}" to Watch List`);
       } else if (found !== null) {
+         setInWatchList(false);
          globalState.removeFromList(found.mediaId);
          setNotification(`Removed "${props.title}" from Watch List`);
       }
@@ -45,15 +58,19 @@ const FeaturedMedia = (props) => {
       globalState.setShowAdded(true);
    };
 
-   const [inWatchList, setInWatchList] = useState(false);
    useEffect(() => {
+      console.log("SAMAY RAINA");
       setInWatchList(false);
       if (globalState.watchList !== null) {
+         console.log("USEEFFECT FIRING");
          globalState.watchList.forEach((item) => {
+            console.log("ITEM ID: " + item.mediaId);
+            console.log("PROPS ID: " + props.mediaId);
             if (
-               item.mediaId === props.mediaId &&
-               item.mediaType === props.mediaType
+               item.mediaId === props.mediaId ||
+               item.mediaId == props.mediaId
             ) {
+               console.log("SAGAR RAINA");
                setInWatchList(true);
             }
          });
@@ -161,8 +178,8 @@ const FeaturedMedia = (props) => {
                <div className="featured-media__title" onClick={clickedTitle}>
                   {props.title}
                </div>
-               <div className="featured-media__playing">Now Playing</div>
-               <div className="featured-media__overview">{props.overview}</div>
+               {/* <div className="featured-media__playing">Now Playing</div> */}
+               {/* <div className="featured-media__overview">{props.overview}</div> */}
 
                <div className="featured-media__buttons">
                   <div
@@ -212,6 +229,7 @@ const FeaturedMedia = (props) => {
                         }`}
                      ></i>
                   </div>
+                  <h1>{console.log("RUNTIME: " + props.runtime)}</h1>
                   <div
                      className={`featured-media__info-btn ${
                         props.type === "single" ? "hide-comp" : ""

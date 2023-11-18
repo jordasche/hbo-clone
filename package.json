@@ -10,10 +10,12 @@
     "export": "next build && next export"
   },
   "dependencies": {
+    "@plaiceholder/next": "^3.0.0",
     "axios": "^0.21.1",
     "jquery": "^3.6.0",
     "local-storage": "^2.0.0",
     "next": "11.1.0",
+    "plaiceholder": "^3.0.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-lazyload": "^3.2.0",
@@ -22,11 +24,15 @@
     "react-player": "^2.9.0",
     "react-youtube": "^7.13.1",
     "sass": "^1.38.0",
+    "sharp": "^0.32.6",
     "uuid": "^8.3.2",
     "youtube-player": "^5.5.2"
   },
   "devDependencies": {
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.0"
+  },
+  "browser":{
+    "child_process": false
   }
 }

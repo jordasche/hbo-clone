@@ -18,19 +18,31 @@ export default function MediaTypePage(props) {
    const router = useRouter();
    const showRandomMedia = () => {
       let thumbType;
+      let pageGenre = props.genresData.find(
+         (item) => item.id === parseInt(props.genre_id)
+      );
+      pageGenre = pageGenre.name;
 
       return props.genresData.map((item, index) => {
          thumbType = shuffleArray(globalState.thumbTypes)[0];
+
+         console.log(item);
+         // console.log("CONTEXT" + context.query)
          return (
             <LazyLoad
-               //    height={680}
-               offset={200}
-               placeholder={<PlaceHolders title={item.name} type={thumbType} />}
+               height={680}
+               offset={0}
+               placeholder={
+                  <PlaceHolders
+                     title={`${pageGenre}/${item.name}`}
+                     type={thumbType}
+                  />
+               }
                key={item.id}
             >
                <MediaRow
                   updateData={props.query.genre_id}
-                  title={item.name}
+                  title={`${pageGenre}/${item.name}`}
                   mediaType={props.query.mediaType}
                   type={thumbType}
                   endpoint={`discover/${props.query.mediaType}?with_genres=${
@@ -115,7 +127,7 @@ export async function getServerSideProps(context) {
    const getFeaturedMediaTrailer = async (featuredID) => {
       let response;
       let videoArray;
-      console.log("PONIESSSSS");
+
       try {
          response = await axios.get(
             `https://api.themoviedb.org/3/${context.query.mediaType}/${featuredID}?api_key=${process.env.MOVIE_DB_KEY}&language=en-US&append_to_response=videos,providers`
@@ -141,13 +153,13 @@ export async function getServerSideProps(context) {
       genresData = await axios.get(
          `https://api.themoviedb.org/3/genre/${context.query.mediaType}/list?api_key=${process.env.MOVIE_DB_KEY}&language=en-US`
       );
+
+      console.log("CONTEXT QUERY: " + context.query.genre_id);
       featuredDataList = await axios.get(
          `https://api.themoviedb.org/3/discover/${context.query.mediaType}?primary_release_year=2021&with_genres=${context.query.genre_id}&api_key=${process.env.MOVIE_DB_KEY}&language=en-US&append_to_response=videos`
       );
-      console.log("YOUR BOIIII");
-      console.log(featuredData);
+
       featuredData = shuffleArray(featuredDataList.data.results)[0];
-      console.log(featuredData);
       trailerID = await getFeaturedMediaTrailer(featuredData.id);
    } catch (error) {
       console.log(error);
@@ -159,6 +171,7 @@ export async function getServerSideProps(context) {
          featuredData: featuredData,
          trailerID: trailerID,
          query: context.query,
+         genre_id: context.query.genre_id,
       },
    };
 }

@@ -169,7 +169,7 @@ const SearchResults = (props) => {
             <img src={posterPath} />
             <div className="search-modal__top-layer">
                <i className="fas fa-play"></i>
-               <h3 className="search-modal__thumbnail-title">{item.title}</h3>
+               {/* <h3 className="search-modal__thumbnail-title">{item.title}</h3> */}
             </div>
          </div>
       );

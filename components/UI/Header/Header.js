@@ -41,7 +41,23 @@ const Header = (props) => {
 
       activeUser = activeUser.filter((user) => user !== undefined);
 
-      return activeUser[0].user;
+      return activeUser[0].userName;
+   };
+
+   const getUserAvatar = () => {
+      let users = ls.get("users");
+      let activeUID = ls.get("activeUID");
+      let activeUser;
+
+      activeUser = users.map((user, index) => {
+         if (user.id === activeUID) {
+            return user;
+         }
+      });
+
+      activeUser = activeUser.filter((user) => user !== undefined);
+
+      return activeUser[0].avatarID;
    };
 
    return (
@@ -77,7 +93,7 @@ const Header = (props) => {
             >
                <img
                   className="top-header__user-img"
-                  src="https://uifaces.co/our-content/donated/n4Ngwvi7.jpg"
+                  src={globalState.getAvatarUrl(getUserAvatar())}
                   alt="user profile picture"
                />
                <div className="top-header__user-name">{getUserName()}</div>

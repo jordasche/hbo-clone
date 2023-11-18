@@ -2,12 +2,20 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { shuffleArray } from "../utilities";
 import Link from "next/dist/client/link";
+import Image from "next/image";
+import { useStateContext } from "../../HBOProvider";
 
-// import Link from "next/link";
+import getBase64 from "../../Utilities/getLocalBase64";
 
 const MediaRow = (props) => {
+   const globalState = useStateContext();
    const [loadingData, setLoadingData] = useState(true);
    const [movies, setMovies] = useState([]);
+   let thumbType = "small-v";
+
+   useEffect(() => {
+      thumbType = shuffleArray(globalState.thumbTypes)[0];
+   }, []);
 
    useEffect(() => {
       setLoadingData(true);
@@ -16,7 +24,20 @@ const MediaRow = (props) => {
             `https://api.themoviedb.org/3/${props.endpoint}&api_key=8b4d9144732c62a3656d7c80c4753668&language=en-US`
          )
          .then(function (response) {
-            setMovies(shuffleArray(response.data.results));
+            if (
+               response.data.results === null ||
+               response.data.results === undefined ||
+               response.data.results.length === 0
+            ) {
+               console.log("Do something because there is no data");
+            }
+            console.log("RESPONSE DATA: " + response.data.results);
+
+            let results = response.data.results.filter((result) => {
+               return result.poster_path !== null;
+            });
+
+            setMovies(shuffleArray(results));
             setLoadingData(false);
          })
          .then(function (error) {
@@ -38,22 +59,38 @@ const MediaRow = (props) => {
       // }
       return thumbnails;
    };
+
+   const mapMovies = (movies) => {
+      console.log("MOVIE: " + movies.length);
+      if (movies.length === 0) {
+         return (
+            <>
+               <h1
+                  style={{
+                     fontSize: "1rem",
+                     color: "#fff",
+                  }}
+               >
+                  There is nothing similar to this!
+               </h1>
+            </>
+         );
+      }
+      return movies.map((movie) => {
+         return (
+            <Thumbnail
+               mediaType={props.mediaType}
+               movieData={movie}
+               title={props.mediaType === "movie" ? movie.title : movie.name}
+               type={thumbType}
+               key={movie.id}
+            />
+         );
+      });
+   };
    const showThumnails = (type) => {
-      return loadingData
-         ? loopComp(<Skeleton />, 10)
-         : movies.map((movie) => {
-              return (
-                 <Thumbnail
-                    mediaType={props.mediaType}
-                    movieData={movie}
-                    title={
-                       props.mediaType === "movie" ? movie.title : movie.name
-                    }
-                    type={type}
-                    key={movie.id}
-                 />
-              );
-           });
+      console.log("PROPS TYPE: " + props.type + props.index);
+      return loadingData ? loopComp(<Skeleton />, 10) : mapMovies(movies);
    };
 
    const scrollRight = () => {
@@ -62,8 +99,9 @@ const MediaRow = (props) => {
    const scrollLeft = () => {
       document.getElementById(props.title).scrollLeft -= 1800;
    };
+   // console.log(props.index);
    return (
-      <div className={`media-row ${props.type}`}>
+      <div className={`media-row ${thumbType}`}>
          <h3 className="media-row__title">{props.title}</h3>
          <div className="media-row__thumbnails" id={props.title}>
             <div
@@ -72,7 +110,7 @@ const MediaRow = (props) => {
             >
                <i className="fas fa-chevron-left"></i>
             </div>
-            {showThumnails(props.type)}
+            {showThumnails(thumbType)}
             <div
                className="media-row__scroll-btn media-row__scroll-btn--right"
                onClick={scrollRight}
@@ -93,6 +131,15 @@ const Skeleton = () => {
 };
 
 const Thumbnail = (props) => {
+   let isPortrait = true;
+
+   if (props.type === "large-h") {
+      isPortrait = false;
+   }
+   if (props.type === "small-h") {
+      isPortrait = false;
+   }
+
    const thumbSize = (type) => {
       if (type === "large-v") {
          return "400";
@@ -107,24 +154,55 @@ const Thumbnail = (props) => {
          return "342";
       }
    };
+   // const blurUrl = await getBase64(
+   //    `https://image.tmdb.org/t/p/w${thumbSize(props.type)}${
+   //       props.movieData.poster_path
+   //    }`
+   // );
+
    return (
       <Link
          href={`/${props.mediaType === "movie" ? "movie" : "tv"}/${
             props.movieData.id
          }`}
       >
-         <div className="media-row__thumbnail">
-            <img
-               src={`https://image.tmdb.org/t/p/w${thumbSize(props.type)}${
-                  props.movieData.poster_path
-               }`}
-               alt=""
-            />
-            <div className="media-row__top-layer">
-               <i className="fas fa-play"></i>
-               <h3 className="media-row__thumbnail-title">{props.title}</h3>
+         <a>
+            <div className="media-row__thumbnail ">
+               <Image
+                  src={`${
+                     isPortrait
+                        ? `https://image.tmdb.org/t/p/w${thumbSize(
+                             props.type
+                          )}${props.movieData.poster_path}`
+                        : `https://image.tmdb.org/t/p/w${thumbSize(
+                             props.type
+                          )}${props.movieData.backdrop_path}`
+                  }`}
+                  // src={`https://image.tmdb.org/t/p/w${thumbSize(props.type)}${
+                  //    props.movieData.poster_path
+                  // }`}
+                  alt=""
+                  width={240}
+                  height={360}
+                  className="media-row__thumbnail-image"
+                  // priority={true}
+                  // placeholder="blur"
+                  // blurDataURL={}
+                  onLoad={(image) =>
+                     setTimeout(() => {
+                        image.target.classList.add(
+                           "media-row__thumbnail-image--show"
+                        );
+                     }, 180)
+                  }
+                  // layout="fill"
+               />
+               <div className="media-row__top-layer">
+                  <i className="fas fa-play"></i>
+                  <h3 className="media-row__thumbnail-title">{props.title}</h3>
+               </div>
             </div>
-         </div>
+         </a>
       </Link>
    );
 };

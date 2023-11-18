@@ -38,22 +38,20 @@ export default function SingleMediaPage(props) {
             poster={props.mediaData.poster_path}
             mediaType={props.query.mediaType}
             mediaId={props.query.id}
+            completeTrailerData={props.completeTrailerData}
+            runtime={props.runtime}
          ></FeaturedMedia>
-         <LazyLoad
-            height={680}
-            offset={-100}
-            placeholder={<PlaceHolders type="large-v" />}
-         >
-            <MediaRow
-               updateData={props.query.id}
-               title="Similar to This"
-               type="large-v"
-               endpoint={`${
-                  props.query.mediaType === "movie" ? "movie" : "tv"
-               }/${props.query.id}/similar?`}
-               mediaType={props.query.mediaType}
-            ></MediaRow>
-         </LazyLoad>
+
+         <MediaRow
+            updateData={props.query.id}
+            title="Similar to This"
+            type="small-v"
+            endpoint={`${props.query.mediaType === "movie" ? "movie" : "tv"}/${
+               props.query.id
+            }/similar?`}
+            mediaType={props.query.mediaType}
+         ></MediaRow>
+
          {/* <MediaRow title="More Like This" type="small-v"></MediaRow> */}
          <CastInfo
             updateData={props.query.id}
@@ -68,6 +66,8 @@ export async function getServerSideProps(context) {
    let mediaData;
    let finalTrailer = "lol";
    let trailerID;
+   let completeTrailerData;
+   let runtime = "";
    const getFeaturedMediaTrailer = async () => {
       let response;
       let videoArray;
@@ -75,28 +75,51 @@ export async function getServerSideProps(context) {
          response = await axios.get(
             `https://api.themoviedb.org/3/${context.query.mediaType}/${context.query.id}?api_key=${process.env.MOVIE_DB_KEY}&language=en-US&append_to_response=videos,providers`
          );
+
+         // console.log("SOMETHING IS HAPPENIONG" + JSON.stringify(response));
+
+         // console.log("SOMETHING IS HAPPENIONG" + JSON.stringify(response.data));
+         // let lol = response.map((item) => {
+         //    if (item === undefined) console.log("SOMETHING IS FISHY");
+         // });
+         videoArray = response.data.videos.results;
+
+         let finalTrailer = await extractTrailer(videoArray);
+
+         if (
+            finalTrailer === null ||
+            finalTrailer === [] ||
+            finalTrailer === undefined
+         ) {
+            // console.log("This is firing brother");
+            return "none";
+         } else {
+            console.log("This is firing brother");
+            return finalTrailer.key;
+         }
       } catch (error) {
          console.log(error);
-      }
-
-      videoArray = response.data.videos.results;
-      let finalTrailer = await extractTrailer(videoArray);
-
-      if (
-         finalTrailer === null ||
-         finalTrailer === [] ||
-         finalTrailer === undefined
-      ) {
-         return "none";
-      } else {
-         return finalTrailer.key;
       }
    };
    try {
       mediaData = await axios.get(
          `https://api.themoviedb.org/3/${context.query.mediaType}/${context.query.id}?api_key=${process.env.MOVIE_DB_KEY}&language=en-US&append_to_response=videos`
       );
+
       trailerID = await getFeaturedMediaTrailer();
+      completeTrailerData = await axios.get(
+         `https://api.themoviedb.org/3/${context.query.mediaType}/${mediaData.data.id}?api_key=${process.env.MOVIE_DB_KEY}&language=en-US&append_to_response=videos,providers`
+      );
+
+      console.log("Runtime: " + JSON.stringify(completeTrailerData.data));
+      if (context.query.mediaType === "tv") {
+         console.log(
+            "DA RUNTIME: " + completeTrailerData.data.episode_run_time
+         );
+         runtime = completeTrailerData.data.episode_run_time;
+      } else {
+         runtime = completeTrailerData.data.runtime;
+      }
    } catch (error) {
       console.log(error);
    }
@@ -106,6 +129,8 @@ export async function getServerSideProps(context) {
          finalTrailer: finalTrailer,
          trailerID: trailerID,
          mediaData: mediaData.data,
+         completeTrailerData: completeTrailerData.data,
+         runtime: runtime,
          query: context.query,
       },
    };

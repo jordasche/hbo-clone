@@ -10,6 +10,10 @@ function shuffleArray(array) {
 }
 
 const getTrailers = (trailers) => {
+   console.log("TRAILERS IN UTILS: " + JSON.stringify(trailers));
+   if (trailers.length === 0) {
+      return null;
+   }
    let allTrailerInfo,
       videoInfo,
       success = false;
@@ -30,12 +34,16 @@ const getTrailers = (trailers) => {
       for (let trailer of allTrailerInfo) {
          trailer.then((result) => {
             if (result.videoInfo.data.items.length < 1) {
+               console.log("SAVIO SOARES");
+
+               resolve([]);
             } else if (
                "ytRating" in
                   result.videoInfo.data.items[0].contentDetails.contentRating ||
                "regionRestriction" in
                   result.videoInfo.data.items[0].contentDetails
             ) {
+               resolve([]);
             } else {
                success = true;
 
@@ -67,12 +75,13 @@ async function extractTrailer(videos) {
    });
 
    if (onlyTrailers.length < 1 && videos.length > 0) {
-      return videos[0];
+      // return videos[0];
+      finalTrailer = await filterTrailer(onlyTrailers);
    } else if (onlyTrailers.length > 0) {
       finalTrailer = await filterTrailer(onlyTrailers);
 
       if (finalTrailer.length < 1 || finalTrailer === undefined) {
-         return videos[0];
+         return null;
       } else return finalTrailer;
    }
 }

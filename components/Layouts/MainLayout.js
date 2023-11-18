@@ -4,7 +4,9 @@ const MainLayout = (props) => {
    return (
       <div
          style={{
-            background: "linear-gradient(312deg, rgba(26, 39, 203, 1) 0%, rgba(48, 20, 94, 1) 45%, rgba(0, 0, 0, 1) 100%)",
+            background:
+               "linear-gradient(312deg, rgb(10 17 105) 0%, rgb(48, 20, 94) 45%, rgb(0, 0, 0) 100%)",
+            background: "#0a0a0a",
             minHeight: "100vh",
          }}
       >

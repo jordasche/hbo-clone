@@ -17,10 +17,11 @@ export default function Home() {
    const [featuredMovie, setFeaturedMovie] = useState("");
 
    const [trailerID, setTrailerID] = useState("");
+   const lazyLoadOffset = -300;
    useEffect(() => {
       axios
          .get(
-            `https://api.themoviedb.org/3/movie/436969?api_key=8b4d9144732c62a3656d7c80c4753668&language=en-US&append_to_response=videos,providers`
+            `https://api.themoviedb.org/3/movie/575264?api_key=8b4d9144732c62a3656d7c80c4753668&language=en-US&append_to_response=videos,providers`
          )
          .then(async function (response) {
             setFeaturedMovie(response.data);
@@ -40,65 +41,65 @@ export default function Home() {
                trailerID={trailerID}
                title={featuredMovie.title}
                overview={featuredMovie.overview}
-               mediaUrl="/movie/436969"
+               mediaUrl="/movie/575264"
                backdrop={featuredMovie.backdrop_path}
                poster={featuredMovie.poster_path}
                type="main"
-               mediaId={436969}
+               mediaId={575264}
                mediaType={"movie"}
             ></FeaturedMedia>
             <LazyLoad
                height={680}
-               offset={-400}
-               placeholder={<PlaceHolders type="large-v" />}
+               offset={-300}
+               placeholder={<PlaceHolders title="Movies" type="small-v" />}
             >
                <MediaRow
                   title="Movies"
                   mediaType="movie"
-                  type="large-v"
-                  endpoint="discover/movie?sort_by=popularity.desc&primary_release_year=2021"
+                  type="small-v"
+                  endpoint="discover/movie?sort_by=popularity.desc&primary_release_year=2023"
                ></MediaRow>
             </LazyLoad>
             <LazyLoad
                height={445}
-               offset={-400}
-               placeholder={<PlaceHolders type="small-v" />}
+               offset={lazyLoadOffset}
+               placeholder={<PlaceHolders title="Series" type="small-v" />}
             >
                <MediaRow
                   title="Series"
                   mediaType="series"
                   type="small-v"
-                  endpoint="discover/tv?sort_by=popularity.desc&primary_release_year=2021"
+                  endpoint="discover/tv?sort_by=popularity.desc&primary_release_year=2023"
                ></MediaRow>
             </LazyLoad>
             <LazyLoad
                height={479}
-               offset={-400}
-               placeholder={<PlaceHolders type="small-h" />}
+               offset={lazyLoadOffset}
+               placeholder={<PlaceHolders title="Action" type="small-v" />}
             >
                <MediaRow
                   mediaType="movie"
                   title="Action"
-                  type="small-h"
+                  type="small-v"
                   endpoint="discover/movie?with_genres=28&primary_release_year=2021"
                ></MediaRow>
             </LazyLoad>
             <LazyLoad
                height={394}
-               offset={-400}
-               placeholder={<PlaceHolders type="large-h" />}
+               offset={lazyLoadOffset}
+               placeholder={<PlaceHolders title="Horror" type="small-v" />}
             >
                <MediaRow
                   mediaType="movie"
                   title="Horror"
-                  type="large-h"
+                  type="small-v"
                   endpoint="discover/movie?with_genres=27&primary_release_year=2021"
                ></MediaRow>
             </LazyLoad>
             <LazyLoad
                height={394}
-               offset={-400}
-               placeholder={<PlaceHolders type="large-h" />}
+               offset={lazyLoadOffset}
+               placeholder={<PlaceHolders title="Animations" type="large-h" />}
             >
                <MediaRow
                   mediaType="movie"
@@ -109,8 +110,8 @@ export default function Home() {
             </LazyLoad>
             <LazyLoad
                height={680}
-               offset={-400}
-               placeholder={<PlaceHolders type="large-v" />}
+               offset={lazyLoadOffset}
+               placeholder={<PlaceHolders title="Sci-fi" type="large-v" />}
             >
                <MediaRow
                   mediaType="movie"

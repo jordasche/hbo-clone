@@ -20,7 +20,10 @@ const GenreList = (props) => {
    return props.genresData.map((item, i) => {
       return (
          <li key={i}>
-            <Link href={`/${props.mediaType}/genre/${item.id}`}>
+            <Link
+               legacyBehavior={true}
+               href={`/${props.mediaType}/genre/${item.id}`}
+            >
                <a>{item.name}</a>
             </Link>
          </li>
